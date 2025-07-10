@@ -2,10 +2,14 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import useAuth from "../../Hooks/useAuth";
 
+
 const MyProfile = () => {
     const { user } = useAuth();
+  
     const [recentPosts, setRecentPosts] = useState([]);
     const [isMember, setIsMember] = useState(false);
+
+ 
 
     useEffect(() => {
         if (user?.email) {
@@ -43,8 +47,8 @@ const MyProfile = () => {
 
                         <div
                             className={`flex items-center gap-1 px-3 py-1 rounded-full font-semibold text-sm ${isMember
-                                    ? "bg-yellow-500 text-white cursor-default"
-                                    : "bg-yellow-200 text-yellow-500 cursor-not-allowed opacity-50"
+                                ? "bg-yellow-500 text-white cursor-default"
+                                : "bg-yellow-200 text-yellow-500 cursor-not-allowed opacity-50"
                                 }`}
                             title={isMember ? "Gold Member" : "Become a Member to unlock"}
                         >

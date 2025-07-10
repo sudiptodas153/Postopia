@@ -1,15 +1,17 @@
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router';
-import axios from 'axios';
+
+import { Link, useNavigate } from 'react-router';
+// import axios from 'axios';
 import Select from 'react-select';
 import { useForm, Controller } from 'react-hook-form';
 import useAuth from '../../Hooks/useAuth';
+import useAxiosSecure from '../../Hooks/useAxiosSecure';
+import Swal from 'sweetalert2';
 
 const AddPost = () => {
-    const { user } = useAuth();
+    const { user, posts } = useAuth();
     const navigate = useNavigate();
+    const axiosSecure = useAxiosSecure()
 
-    const [postCount, setPostCount] = useState(0);
     const {
         register,
         handleSubmit,
@@ -24,18 +26,18 @@ const AddPost = () => {
     ];
 
     // Fetch post count
-    useEffect(() => {
-        if (user?.email) {
-            axios
-                .get(`http://localhost:5000/api/posts/count?email=${user.email}`)
-                .then((res) => setPostCount(res.data.count))
-                .catch((err) => console.error(err));
-        }
-    }, [user]);
+    // useEffect(() => {
+    //     if (user?.email) {
+    //         axios
+    //             .get(`http://localhost:5000/api/posts/count?email=${user.email}`)
+    //             .then((res) => setPostCount(res.data.count))
+    //             .catch((err) => console.error(err));
+    //     }
+    // }, [user]);
 
     // Submit form
     const onSubmit = async (data) => {
-        console.log(data)
+        // console.log(data)
         const newPost = {
             authorName: user.displayName,
             authorEmail: user.email,
@@ -45,31 +47,40 @@ const AddPost = () => {
             tag: data.tag?.value || '',
             upVote: 0,
             downVote: 0,
-            createdAt: new Date(),
+            createdAt: new Date().toISOString(),
         };
 
-        try {
-            await axios.post('http://localhost:5000/api/posts', newPost);
-            reset(); // clear form
-            navigate('/user-dashboard/myPosts');
-        } catch (error) {
-            console.error('Post failed:', error);
-        }
+        axiosSecure.post('posts', newPost)
+            .then(res => {
+                console.log(res.data)
+                if (res.data.insertedId) {
+                    Swal.fire({
+                        title: "Post Added!",
+                        text: "Your post has been successfully submitted 🎉",
+                        icon: "success",
+                        confirmButtonText: "OK"
+                    });
+                    reset(); // Clear the form
+                    navigate('/user-dashboard/myPosts');
+                }
+            })
+
+
+
     };
 
     // If post limit reached
-    if (postCount >= 5) {
+    if (posts?.length >= 5) {
         return (
-            <div className="text-center mt-10 px-4">
-                <h2 className="text-2xl font-bold text-red-500 mb-4">Post Limit Reached</h2>
+
+            <div className="text-center md:mt-28 mt-10 px-4">
+                <h2 className="text-2xl md:text-4xl font-bold text-red-500 mb-4">Post Limit Reached</h2>
                 <p className="mb-4 text-gray-600">You can only add 5 posts as a free user.</p>
-                <button
-                    onClick={() => navigate('/membership')}
-                    className="px-5 py-2 bg-yellow-500 hover:bg-yellow-600 text-white rounded-md"
-                >
-                    Become a Member 🚀
-                </button>
+                <Link to={'/membership'}>
+                    <button className="px-5 py-2 bg-gradient-to-r from-[#ad4df1] to-[#5191f7] text-white rounded-md"> Become a Member </button>
+                </Link>
             </div>
+
         );
     }
 

@@ -9,8 +9,8 @@ const Navbar = () => {
     const { user, signOutUser } = useAuth()
 
     const links = <>
-        <li><NavLink>Home</NavLink></li>
-        <li><NavLink>Membership</NavLink></li>
+        <li><NavLink to={'/'}>Home</NavLink></li>
+        <li><NavLink to={'/membership'}>Membership</NavLink></li>
     </>
 
     // logout

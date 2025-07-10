@@ -2,12 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { AuthContext } from './AuthContext';
 import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from 'firebase/auth';
 import { auth } from '../Firebase/Firebase.init';
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from '../Hooks/useAxiosSecure';
+
 
 const AuthProvider = ({ children }) => {
 
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
-
+    const axiosSecure = useAxiosSecure()
 
     // Provider
     const provider = new GoogleAuthProvider();
@@ -44,15 +47,26 @@ const AuthProvider = ({ children }) => {
 
     // OnAuthChange
 
-    useEffect(()=>{
-        const unSubscribe = onAuthStateChanged(auth, currentUser =>{
+    useEffect(() => {
+        const unSubscribe = onAuthStateChanged(auth, currentUser => {
             setUser(currentUser);
             setLoading(false)
         })
-        return ()=>{
+        return () => {
             unSubscribe()
         }
-    },[])
+    }, [])
+
+
+    // All-Post
+
+    const { data: posts } = useQuery({
+        queryKey: ['my-posts', user?.email],
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/posts?email=${user.email}`);
+            return res.data
+        }
+    })
 
 
     const authInfo = {
@@ -62,6 +76,7 @@ const AuthProvider = ({ children }) => {
         signIn,
         googleLogin,
         signOutUser,
+        posts,
     }
 
     return (
