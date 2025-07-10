@@ -2,27 +2,37 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import { FaSignInAlt } from 'react-icons/fa';
 import useAuth from '../../Hooks/useAuth';
+import { useLocation, useNavigate } from 'react-router';
 
 const Login = () => {
-const{googleLogin, signInWithEmailAndPassword} = useAuth()
+    const { googleLogin, signInWithEmailAndPassword } = useAuth()
+    const navigate = useNavigate();
+    const location = useLocation();
 
+    const from = location.state?.from?.pathname || '/';
     const { register, handleSubmit } = useForm();
     const onSubmit = data => {
         signInWithEmailAndPassword(data.email, data.password)
-        .then(()=>{})
-        .catch(()=>{})
+            .then(() => {
+                setTimeout(() => {
+                    navigate(from, { replace: true });
+                }, 500);
+            })
+            .catch(() => { })
     };
 
 
-// Google 
- const googleSignIn = () => {
+    // Google 
+    const googleSignIn = () => {
         googleLogin()
-        .then(()=>{
+            .then(() => {
+                setTimeout(() => {
+                    navigate(from, { replace: true });
+                }, 500);
+            })
+            .catch(() => {
 
-        })
-        .catch(()=>{
-            
-        })
+            })
     }
 
 

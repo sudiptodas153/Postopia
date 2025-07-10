@@ -1,16 +1,23 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import useAuth from '../../Hooks/useAuth';
+import { useLocation, useNavigate } from 'react-router';
 
 const Register = () => {
 
     const { createUser, googleLogin } = useAuth()
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const from = location.state?.from?.pathname || '/';
 
     const { register, handleSubmit, formState: { errors } } = useForm();
     const onSubmit = data => {
         createUser(data.email, data.password)
-            .then(r => {
-                console.log(r)
+            .then(() => {
+                setTimeout(() => {
+                    navigate(from, { replace: true });
+                }, 500);
             })
             .catch(e => {
                 console.log(e)
@@ -22,12 +29,14 @@ const Register = () => {
 
     const googleSignIn = () => {
         googleLogin()
-        .then(()=>{
+            .then(() => {
+                setTimeout(() => {
+                    navigate(from, { replace: true });
+                }, 500);
+            })
+            .catch(() => {
 
-        })
-        .catch(()=>{
-            
-        })
+            })
     }
 
     return (
