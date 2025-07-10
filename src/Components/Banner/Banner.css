@@ -1,0 +1,8 @@
+.custom {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.541), rgb(0, 0, 0)), url('../../assets/Banner.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+
+}
