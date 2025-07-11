@@ -1,37 +1,74 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
+import { useState } from "react";
+
 import useAuth from "../../Hooks/useAuth";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import { AiFillDislike, AiOutlineDislike, AiOutlineLike } from "react-icons/ai";
+import { FaRegCommentAlt } from "react-icons/fa";
+import { BiSolidLike } from "react-icons/bi";
 
 
 const MyProfile = () => {
     const { user } = useAuth();
-  
-    const [recentPosts, setRecentPosts] = useState([]);
+    const axiosSecure = useAxiosSecure()
+    // const [recentPosts, setRecentPosts] = useState([]);
     const [isMember, setIsMember] = useState(false);
 
- 
 
-    useEffect(() => {
-        if (user?.email) {
-            // Check membership status (backend থেকে আসবে)
-            axios
-                .get(`http://localhost:5000/api/users/${user.email}`)
-                .then((res) => setIsMember(res.data?.isMember))
-                .catch(() => setIsMember(false));
 
-            // Get last 3 posts of the user
-            axios
-                .get(`http://localhost:5000/api/posts?email=${user.email}&limit=3`)
-                .then((res) => setRecentPosts(res.data))
-                .catch(() => setRecentPosts([]));
+    // All post
+    const { data: posts, refetch } = useQuery({
+        queryKey: ['my-posts', user?.email],
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/posts?email=${user.email}`);
+            return res.data
         }
-    }, [user]);
+    })
+    // console.log(posts)
+
+    const recentPosts = posts?.slice(-3).reverse();
+
+
+
+
+    // useEffect(() => {
+    //     if (user?.email) {
+    //         // Check membership status (backend থেকে আসবে)
+    //         axios
+    //             .get(`http://localhost:5000/api/users/${user.email}`)
+    //             .then((res) => setIsMember(res.data?.isMember))
+    //             .catch(() => setIsMember(false));
+
+    //         // Get last 3 posts of the user
+    //         axios
+    //             .get(`http://localhost:5000/api/posts?email=${user.email}&limit=3`)
+    //             .then((res) => setRecentPosts(res.data))
+    //             .catch(() => setRecentPosts([]));
+    //     }
+    // }, [user]);
+
+    // HandleVote
+    const handleVote = async (postId, type) => {
+        try {
+            const res = await axiosSecure.patch(`/posts/vote/${postId}`, {
+                email: user.email,
+                type: type
+            });
+            if (res.data.success) {
+                refetch();
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+
 
     if (!user) return <p>Loading...</p>;
 
     return (
         <div className="max-w-3xl mx-auto mt-10 p-6 bg-white rounded shadow">
-            <div className="flex items-center gap-6 mb-6">
+            <div className="flex border-b border-gray-400 pb-10 items-center gap-6 mb-6">
                 <img
                     src={user.photoURL || "/default-user.png"}
                     alt="User"
@@ -76,22 +113,52 @@ const MyProfile = () => {
             </div>
 
             <h3 className="text-xl font-semibold mb-4">Recent Posts</h3>
-            {recentPosts.length === 0 ? (
+            {recentPosts?.length === 0 ? (
                 <p className="text-gray-500">No recent posts found.</p>
             ) : (
-                <ul className="space-y-3">
-                    {recentPosts.map((post) => (
-                        <li
-                            key={post._id}
-                            className="border rounded p-3 hover:shadow cursor-pointer"
-                        >
-                            <h4 className="font-semibold text-lg">{post.title}</h4>
-                            <p className="text-sm text-gray-600 line-clamp-2">
-                                {post.description}
-                            </p>
-                        </li>
-                    ))}
-                </ul>
+                <div className=" space-y-3 md:space-y-0 md:grid grid-cols-3 md:gap-2 md:h-28">
+                    {recentPosts?.map((post) => {
+                        const voted = post.votedUsers?.find(v => v.email === user.email);
+                        const liked = voted?.type === "like";
+                        const disliked = voted?.type === "dislike";
+
+                        return (
+                            <div
+                                key={post._id}
+                                className="border rounded p-3 hover:shadow cursor-pointer"
+                            >
+                                <h4 className="font-semibold md:text-xl text-lg">{post.title}</h4>
+                                <p className="text-sm text-gray-600 line-clamp-2">
+                                    {post.description}
+                                </p>
+                                <div className="mt-4 flex items-center gap-4">
+                                    <button
+                                        className="cursor-pointer"
+                                        onClick={() => handleVote(post._id, "like")}
+                                    >
+                                        {
+                                            liked ? <BiSolidLike size={25} /> : <AiOutlineLike size={25} />
+                                        }
+                                    </button>
+                                    <button
+                                        className="cursor-pointer"
+                                        onClick={() => handleVote(post._id, "dislike")}
+                                    >
+                                        {
+                                            disliked ? <AiFillDislike size={25} /> :
+                                                <AiOutlineDislike  size={25} />
+                                        }
+
+                                    </button>
+                                    <button className="cursor-pointer">
+                                        <FaRegCommentAlt size={20} />
+                                    </button>
+                                </div>
+
+                            </div>
+                        )
+                    })}
+                </div>
             )}
         </div>
     );

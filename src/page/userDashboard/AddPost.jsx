@@ -8,7 +8,7 @@ import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import Swal from 'sweetalert2';
 
 const AddPost = () => {
-    const { user, posts } = useAuth();
+    const { user, posts, refetch} = useAuth();
     const navigate = useNavigate();
     const axiosSecure = useAxiosSecure()
 
@@ -61,6 +61,7 @@ const AddPost = () => {
                         confirmButtonText: "OK"
                     });
                     reset(); // Clear the form
+                     refetch(); 
                     navigate('/user-dashboard/myPosts');
                 }
             })

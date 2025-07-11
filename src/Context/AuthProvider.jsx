@@ -60,7 +60,7 @@ const AuthProvider = ({ children }) => {
 
     // All-Post
 
-    const { data: posts } = useQuery({
+    const { data: posts, refetch } = useQuery({
         queryKey: ['my-posts', user?.email],
         queryFn: async () => {
             const res = await axiosSecure.get(`/posts?email=${user.email}`);
@@ -77,6 +77,7 @@ const AuthProvider = ({ children }) => {
         googleLogin,
         signOutUser,
         posts,
+        refetch
     }
 
     return (
