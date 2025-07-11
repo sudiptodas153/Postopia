@@ -8,7 +8,7 @@ import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import Swal from 'sweetalert2';
 
 const AddPost = () => {
-    const { user, posts, refetch} = useAuth();
+    const { user, posts, refetch, userInfo} = useAuth();
     const navigate = useNavigate();
     const axiosSecure = useAxiosSecure()
 
@@ -71,6 +71,7 @@ const AddPost = () => {
     };
 
     // If post limit reached
+    if(userInfo.isMember === false){
     if (posts?.length >= 5) {
         return (
 
@@ -83,7 +84,7 @@ const AddPost = () => {
             </div>
 
         );
-    }
+    }}
 
     return (
         <div className="max-w-3xl mx-auto mt-10 border p-6 rounded-xl shadow-md bg-white px-4">

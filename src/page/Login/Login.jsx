@@ -3,11 +3,13 @@ import { useForm } from 'react-hook-form';
 import { FaSignInAlt } from 'react-icons/fa';
 import useAuth from '../../Hooks/useAuth';
 import { useLocation, useNavigate } from 'react-router';
+import useAxiosSecure from '../../Hooks/useAxiosSecure';
 
 const Login = () => {
     const { googleLogin, signInWithEmailAndPassword } = useAuth()
     const navigate = useNavigate();
     const location = useLocation();
+    const axiosSecure = useAxiosSecure()
 
     const from = location.state?.from?.pathname || '/';
     const { register, handleSubmit } = useForm();
@@ -25,10 +27,24 @@ const Login = () => {
     // Google 
     const googleSignIn = () => {
         googleLogin()
-            .then(() => {
-                setTimeout(() => {
-                    navigate(from, { replace: true });
-                }, 500);
+            .then(result => {
+
+                const userInfo = {
+                    email: result?.user?.email,
+                    name: result?.user?.displayName,
+                    photoURL: result?.user?.photoURL
+                }
+
+
+                axiosSecure.post('users', userInfo)
+                    .then(() => {
+                        setTimeout(() => {
+                            navigate(from, { replace: true });
+                        }, 500);
+                    })
+                    .catch(() => { })
+
+
             })
             .catch(() => {
 

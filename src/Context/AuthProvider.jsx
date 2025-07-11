@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { AuthContext } from './AuthContext';
-import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut } from 'firebase/auth';
+import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from 'firebase/auth';
 import { auth } from '../Firebase/Firebase.init';
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from '../Hooks/useAxiosSecure';
@@ -22,6 +22,12 @@ const AuthProvider = ({ children }) => {
     const createUser = (email, password) => {
         setLoading(true)
         return createUserWithEmailAndPassword(auth, email, password)
+    }
+
+    // profile update
+    const profileUpdate = (userDetails) => {
+
+        return updateProfile(auth.currentUser, userDetails)
     }
 
     // SignIn
@@ -69,21 +75,36 @@ const AuthProvider = ({ children }) => {
     })
 
 
+    const { data: userInfo = {}} = useQuery({
+        queryKey: ['user-info', user?.email],
+        enabled: !!user?.email,
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/users/${user.email}`);
+            return res.data;
+        }
+    });
+
+  
+
+
     const authInfo = {
         user,
+        setUser,
         loading,
         createUser,
+        profileUpdate,
         signIn,
         googleLogin,
         signOutUser,
         posts,
-        refetch
+        refetch,
+        userInfo
     }
 
     return (
-        <AuthContext value={authInfo}>
+        <AuthContext value={authInfo} >
             {children}
-        </AuthContext>
+        </AuthContext >
     );
 };
 

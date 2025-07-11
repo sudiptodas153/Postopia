@@ -2,22 +2,37 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import useAuth from '../../Hooks/useAuth';
 import { useLocation, useNavigate } from 'react-router';
+import useAxiosSecure from '../../Hooks/useAxiosSecure';
 
 const Register = () => {
-
-    const { createUser, googleLogin } = useAuth()
+    const axiosSecure = useAxiosSecure()
+    const { createUser, googleLogin, profileUpdate, setUser, user } = useAuth()
     const navigate = useNavigate();
     const location = useLocation();
 
     const from = location.state?.from?.pathname || '/';
-
     const { register, handleSubmit, formState: { errors } } = useForm();
+
     const onSubmit = data => {
         createUser(data.email, data.password)
             .then(() => {
-                setTimeout(() => {
-                    navigate(from, { replace: true });
-                }, 500);
+                profileUpdate({ displayName: data.name, photoURL: data.photo })
+                const userInfo = {
+                    email: data.email,
+                    name: data.name,
+                    photoURL: data.photo,
+                    isMember: false,
+                    badge: 'bronze'
+                };
+                axiosSecure.post('users', userInfo)
+                    .then(() => {
+                        setUser({ ...user, displayName: data.name, photoURL: data.image })
+                        setTimeout(() => {
+                            navigate(from, { replace: true });
+                        }, 500);
+                    })
+                    .catch(()=>{})
+
             })
             .catch(e => {
                 console.log(e)
@@ -29,10 +44,24 @@ const Register = () => {
 
     const googleSignIn = () => {
         googleLogin()
-            .then(() => {
-                setTimeout(() => {
-                    navigate(from, { replace: true });
-                }, 500);
+            .then(result => {
+
+                const userInfo = {
+                    email: result?.user?.email,
+                    name: result?.user?.displayName,
+                    photoURL: result?.user?.photoURL
+                }
+
+
+                axiosSecure.post('users', userInfo)
+                    .then(() => {
+                        setTimeout(() => {
+                            navigate(from, { replace: true });
+                        }, 500);
+                    })
+                    .catch(() => { })
+
+
             })
             .catch(() => {
 

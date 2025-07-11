@@ -1,4 +1,3 @@
-import { useState } from "react";
 
 import useAuth from "../../Hooks/useAuth";
 import { useQuery } from "@tanstack/react-query";
@@ -9,10 +8,10 @@ import { BiSolidLike } from "react-icons/bi";
 
 
 const MyProfile = () => {
-    const { user } = useAuth();
+    const { user, userInfo } = useAuth();
     const axiosSecure = useAxiosSecure()
     // const [recentPosts, setRecentPosts] = useState([]);
-    const [isMember, setIsMember] = useState(false);
+    
 
 
 
@@ -83,14 +82,14 @@ const MyProfile = () => {
                         </div>
 
                         <div
-                            className={`flex items-center gap-1 px-3 py-1 rounded-full font-semibold text-sm ${isMember
+                            className={`flex items-center gap-1 px-3 py-1 rounded-full font-semibold text-sm ${userInfo?.isMember
                                 ? "bg-yellow-500 text-white cursor-default"
                                 : "bg-yellow-200 text-yellow-500 cursor-not-allowed opacity-50"
                                 }`}
-                            title={isMember ? "Gold Member" : "Become a Member to unlock"}
+                            title={userInfo?.isMember ? "Gold Member" : "Become a Member to unlock"}
                         >
                             <span>🥇</span> Gold
-                            {!isMember && (
+                            {!userInfo?.isMember && (
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     className="h-4 w-4 ml-1"
