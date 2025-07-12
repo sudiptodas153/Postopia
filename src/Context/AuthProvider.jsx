@@ -10,6 +10,7 @@ const AuthProvider = ({ children }) => {
 
     const [user, setUser] = useState(null)
     const [loading, setLoading] = useState(true)
+    const [loading2, setLoading2] = useState(false)
     const axiosSecure = useAxiosSecure()
 
     // Provider
@@ -90,7 +91,10 @@ const AuthProvider = ({ children }) => {
     const authInfo = {
         user,
         setUser,
+        setLoading,
         loading,
+        setLoading2,
+        loading2,
         createUser,
         profileUpdate,
         signIn,
