@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from 'react-router';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
 
 const Login = () => {
-    const { googleLogin, signInWithEmailAndPassword } = useAuth()
+    const { googleLogin, signIn } = useAuth()
     const navigate = useNavigate();
     const location = useLocation();
     const axiosSecure = useAxiosSecure()
@@ -14,7 +14,7 @@ const Login = () => {
     const from = location.state?.from?.pathname || '/';
     const { register, handleSubmit } = useForm();
     const onSubmit = data => {
-        signInWithEmailAndPassword(data.email, data.password)
+       signIn(data.email, data.password)
             .then(() => {
                 setTimeout(() => {
                     navigate(from, { replace: true });
@@ -32,7 +32,8 @@ const Login = () => {
                 const userInfo = {
                     email: result?.user?.email,
                     name: result?.user?.displayName,
-                    photoURL: result?.user?.photoURL
+                    photoURL: result?.user?.photoURL,
+                    role: 'user'
                 }
 
 

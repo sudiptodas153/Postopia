@@ -3,22 +3,44 @@ import Logo from '../Logo/Logo';
 import { Link, NavLink } from 'react-router';
 import Notification from '../Notification/Notification';
 import useAuth from '../../Hooks/useAuth';
+import { useQuery } from '@tanstack/react-query';
+import useAxiosSecure from '../../Hooks/useAxiosSecure';
 
 const Navbar = () => {
 
     const { user, signOutUser } = useAuth()
-
+    const axiosSecure = useAxiosSecure()
     const links = <>
         <li><NavLink to={'/'}>Home</NavLink></li>
         <li><NavLink to={'/membership'}>Membership</NavLink></li>
     </>
 
+
+
     // logout
     const logout = () => {
         signOutUser()
-        .then(()=>{})
-        .catch(()=>{})
+            .then(() => { })
+            .catch(() => { })
     }
+
+
+
+
+
+    const { data: users = []} = useQuery({
+        queryKey: ['users'],
+        queryFn: async () => {
+            const res = await axiosSecure.get('/users');
+            return res.data;
+        },
+    });
+
+  const admins = users.filter(user => user.role === 'admin');
+  
+// console.log(user)
+// console.log(admins[0]?.email)
+
 
     const announcementCount = 1;
     return (
@@ -51,7 +73,12 @@ const Navbar = () => {
                             </div>
                             <ul tabIndex={0} className="dropdown-content border border-gray-400 mt-4 space-y-3 menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
                                 <h2 className='text-lg font-bold'>{user?.displayName}</h2>
-                                <Link to={'/user-dashboard'}><li className='text-sm font-bold'>Dashboard</li></Link>
+                                {
+                                   admins[0]?.email === user?.email?
+                                        <Link to={'/admin-dashboard'}><li className='text-sm font-bold'>Dashboard</li></Link>
+                                        :
+                                        <Link to={'/user-dashboard'}><li className='text-sm font-bold '>Dashboard</li></Link>
+                                }
                                 <button onClick={logout} className='btn border hover:text-white hover:bg-gradient-to-r from-[#ad4df1] to-[#5191f7] text-[#ad4df1] border-[#ad4df1]'>Logout</button>
                             </ul>
                         </div>

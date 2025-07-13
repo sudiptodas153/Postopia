@@ -30,21 +30,6 @@ const MyProfile = () => {
 
 
 
-    
-    //     if (user?.email) {
-    //         // Check membership status (backend থেকে আসবে)
-    //         axios
-    //             .get(`http://localhost:5000/api/users/${user.email}`)
-    //             .then((res) => setIsMember(res.data?.isMember))
-    //             .catch(() => setIsMember(false));
-
-    //         // Get last 3 posts of the user
-    //         axios
-    //             .get(`http://localhost:5000/api/posts?email=${user.email}&limit=3`)
-    //             .then((res) => setRecentPosts(res.data))
-    //             .catch(() => setRecentPosts([]));
-    //     }
-    // }, [user]);
 
     // HandleVote
     const handleVote = async (postId, type) => {
@@ -75,7 +60,7 @@ const MyProfile = () => {
                 />
                 <div>
                     <h2 className="text-2xl font-bold">{user.displayName}</h2>
-                    <p className="text-gray-600">{user.email}</p>
+                    <p className="text-gray-600 text-xs md:text-lg">{user.email}</p>
                     <div className="flex gap-3 mt-2">
                         <div className="flex items-center gap-1 bg-[#D3D3D3] text-yellow-800 px-3 py-1 rounded-full font-semibold text-sm">
                             <span>🥉</span> Bronze

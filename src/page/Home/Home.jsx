@@ -3,13 +3,14 @@ import Banner from '../../Components/Banner/Banner';
 import PostCard from '../../Components/PostCard/PostCard';
 import Pagination from '../../Components/Pagination/Pagination';
 import usePosts from '../../Hooks/usePosts';
-import useAuth from '../../Hooks/useAuth';
+// import useAuth from '../../Hooks/useAuth';
 
 const Home = () => {
     const [page, setPage] = useState(1);
     const [view, setView] = useState('newest'); // new state for view: newest, popular, comments
-    const { loading2 } = useAuth();
-    const { posts, totalPages } = usePosts(page, view);
+    // const { loading2 } = useAuth();
+    const { posts, totalPages, loading2, setPosts } = usePosts(page, view);
+    // console.log(posts)
 
     // Change view and reset page to 1
     const handleViewChange = (newView) => {
@@ -44,7 +45,11 @@ const Home = () => {
                     <div className="text-center text-lg">Loading posts...</div>
                 ) : posts.length > 0 ? (
                     <div className='grid grid-cols-1 md:grid-cols-3 gap-5'>
-                        {posts.map(post => <PostCard key={post._id} post={post} />)}
+                        {posts.map(post => <PostCard key={post._id} post={post}
+                            updatePost={(updatedPost) => {
+                                setPosts(prev => prev.map(p => p._id === updatedPost._id ? updatedPost : p));
+                            }}
+                        />)}
                     </div>
                 ) : (
                     <p className="text-center text-gray-500">No posts found.</p>

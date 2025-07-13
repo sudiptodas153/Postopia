@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import useAuth from '../../Hooks/useAuth';
 import { useLocation, useNavigate } from 'react-router';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
+import axios from 'axios';
 
 const Register = () => {
     const axiosSecure = useAxiosSecure()
     const { createUser, googleLogin, profileUpdate, setUser, user } = useAuth()
     const navigate = useNavigate();
     const location = useLocation();
+    const [image, setImage] = useState('');
 
     const from = location.state?.from?.pathname || '/';
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -16,22 +18,23 @@ const Register = () => {
     const onSubmit = data => {
         createUser(data.email, data.password)
             .then(() => {
-                profileUpdate({ displayName: data.name, photoURL: data.photo })
+                profileUpdate({ displayName: data.name, photoURL: image })
                 const userInfo = {
                     email: data.email,
                     name: data.name,
                     photoURL: data.photo,
+                    role: 'user',
                     isMember: false,
                     badge: 'bronze'
                 };
                 axiosSecure.post('users', userInfo)
                     .then(() => {
-                        setUser({ ...user, displayName: data.name, photoURL: data.image })
+                        setUser({ ...user, displayName: data.name, photoURL: image })
                         setTimeout(() => {
                             navigate(from, { replace: true });
                         }, 500);
                     })
-                    .catch(()=>{})
+                    .catch(() => { })
 
             })
             .catch(e => {
@@ -49,7 +52,8 @@ const Register = () => {
                 const userInfo = {
                     email: result?.user?.email,
                     name: result?.user?.displayName,
-                    photoURL: result?.user?.photoURL
+                    photoURL: result?.user?.photoURL,
+                    role: 'user'
                 }
 
 
@@ -66,6 +70,18 @@ const Register = () => {
             .catch(() => {
 
             })
+    }
+
+
+    // handleImage
+    const handleImage = async e => {
+        const image = e.target.files[0]
+        // console.log(image)
+        const formData = new FormData();
+        formData.append('image', image)
+        const imageUrl = `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_image_key}`
+        const res = await axios.post(imageUrl, formData)
+        setImage(res.data.data.url)
     }
 
     return (
@@ -91,7 +107,9 @@ const Register = () => {
                         {/* Image */}
                         <fieldset className="fieldset">
                             <legend className="fieldset-legend">Photo URL</legend>
-                            <input type="text" {...register("image", { required: true })} className="input focus:outline-none" placeholder="enter your image" />
+                            <input type="file" required
+                                onChange={handleImage}
+                                className="border border-gray-300 p-2 rounded-sm focus:outline-none" placeholder="enter your image" />
                         </fieldset>
 
                         {/* Password */}

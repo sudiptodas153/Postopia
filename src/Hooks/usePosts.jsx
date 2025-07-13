@@ -1,16 +1,17 @@
 // src/hooks/usePosts.js
 import { useState, useEffect } from 'react';
 import useAxiosSecure from './useAxiosSecure';
-import useAuth from './useAuth';
+// import useAuth from './useAuth';
 
 const usePosts = (page, view) => {
   const axiosSecure = useAxiosSecure();
   const [posts, setPosts] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
-  const {setLoading2} = useAuth()
+  // const {setLoading2} = useAuth();
+  const [loading2, setLoading2] = useState(true)
 
   useEffect(() => {
-//    setLoading2(true)
+    // setLoading2(true);
     let url = '';
 
     if (view === 'popular') {
@@ -21,26 +22,36 @@ const usePosts = (page, view) => {
       url = `/all-posts?page=${page}`;
     }
 
-    axiosSecure.get(url)
-      .then(res => {
-        // backend sends {posts, totalPosts, currentPage, totalPages} except posts-with-comments 
-        // যেহেতু /posts-with-comments route তে তুমি এই ফরম্যাট দিয়েছো
-        if (res.data.posts) {
-          setPosts(res.data.posts);
-          setTotalPages(res.data.totalPages);
-        } else {
-          setPosts(res.data);
-          setTotalPages(1);
-        }
-        setLoading2(false);
-        
-      })
-      .catch(() =>{
-        setLoading2(false);
-      });
+    // ✅ API call করো যদি:
+    // 1. পোস্ট খালি থাকে (প্রথম লোড)
+    // 2. ভিউ চেঞ্জ হয়
+    // 3. পেজ নাম্বার চেঞ্জ হয়
+    const prevPage = parseInt(localStorage.getItem('prevPage'));
+    const prevView = localStorage.getItem('view');
+
+    if (posts.length === 0 || prevView !== view || prevPage !== page) {
+      axiosSecure.get(url)
+        .then(res => {
+          if (res.data.posts) {
+            setPosts(res.data.posts);
+            setTotalPages(res.data.totalPages);
+          } else {
+            setPosts(res.data);
+            setTotalPages(1);
+          }
+          setLoading2(false);
+          localStorage.setItem('view', view);
+          localStorage.setItem('prevPage', page); // ✅ নতুন পেজ সেভ করো
+        })
+        .catch(() => {
+          setLoading2(false);
+        });
+    }
+
   }, [page, view, axiosSecure]);
 
-  return { posts, totalPages};
+
+  return { posts, totalPages, loading2, setPosts };
 };
 
 export default usePosts;

@@ -11,6 +11,11 @@ import MyPosts from "../page/userDashboard/MyPosts";
 import PrivateRoute from "../Routes/PrivateRoute";
 import DashboardLayout from "../page/userDashboard/DashboardLayout";
 import Membership from "../page/Membership/Membership";
+import AdminProfile from "../page/DashboardLayout/AdminProfile";
+import ManageUsers from "../page/DashboardLayout/ManageUsers";
+import ReportedActivities from "../page/DashboardLayout/ReportedActivities";
+import MakeAnnouncement from "../page/DashboardLayout/MakeAnnouncement";
+import AdminDashboardLayout from "../page/DashboardLayout/AdminDashboardLayout";
 
 
 export const router = createBrowserRouter([
@@ -22,7 +27,7 @@ export const router = createBrowserRouter([
         index: true,
         Component: Home
       },
-       {
+      {
         path: 'membership',
         Component: Membership
       }
@@ -42,23 +47,52 @@ export const router = createBrowserRouter([
       },
     ]
   },
- {
-  path: "/user-dashboard",
-  element: <PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>,
-  children: [
-    {
-      index:true,
-      Component: MyProfile,
-    },
-    {
-      path: "addPost",
-      Component: AddPost,
-    },
-    {
-      path: "myPosts",
-      Component: MyPosts,
-    }
-  ]
-}
+  {
+    path: "/user-dashboard",
+    element: <PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>,
+    children: [
+      {
+        index: true,
+        Component: MyProfile,
+      },
+      {
+        path: "addPost",
+        Component: AddPost,
+      },
+      {
+        path: "myPosts",
+        Component: MyPosts,
+      }
+    ]
+  },
+
+  {
+    path: "/admin-dashboard",
+    element: (
+      <PrivateRoute>
+        <AdminDashboardLayout></AdminDashboardLayout>
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        index: true,
+        Component: AdminProfile,
+      },
+      {
+        path: "manageUsers",
+        Component: ManageUsers,
+      },
+      {
+        path: "reports",
+        Component: ReportedActivities,
+      },
+      {
+        path: "announcement",
+        Component: MakeAnnouncement,
+      }
+    ]
+  }
+
+
 
 ]);

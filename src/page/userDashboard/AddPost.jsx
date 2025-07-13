@@ -6,9 +6,10 @@ import { useForm, Controller } from 'react-hook-form';
 import useAuth from '../../Hooks/useAuth';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import Swal from 'sweetalert2';
+import { useQuery } from '@tanstack/react-query';
 
 const AddPost = () => {
-    const { user, posts, refetch, userInfo} = useAuth();
+    const { user, posts, refetch, userInfo } = useAuth();
     const navigate = useNavigate();
     const axiosSecure = useAxiosSecure()
 
@@ -19,21 +20,14 @@ const AddPost = () => {
         reset
     } = useForm();
 
-    const tagOptions = [
-        { value: 'react', label: 'React' },
-        { value: 'mern', label: 'MERN' },
-        { value: 'javascript', label: 'JavaScript' },
-    ];
+    const { data: tags = [] } = useQuery({
+        queryKey: ['tags'],
+        queryFn: async () => {
+            const res = await axiosSecure.get('/tags');
+            return res.data;
+        },
+    });
 
-    // Fetch post count
-    // useEffect(() => {
-    //     if (user?.email) {
-    //         axios
-    //             .get(`http://localhost:5000/api/posts/count?email=${user.email}`)
-    //             .then((res) => setPostCount(res.data.count))
-    //             .catch((err) => console.error(err));
-    //     }
-    // }, [user]);
 
     // Submit form
     const onSubmit = async (data) => {
@@ -61,7 +55,7 @@ const AddPost = () => {
                         confirmButtonText: "OK"
                     });
                     reset(); // Clear the form
-                     refetch(); 
+                    refetch();
                     navigate('/user-dashboard/myPosts');
                 }
             })
@@ -71,23 +65,24 @@ const AddPost = () => {
     };
 
     // If post limit reached
-    if(userInfo.isMember === false){
-    if (posts?.length >= 5) {
-        return (
+    if (userInfo.isMember === false) {
+        if (posts?.length >= 5) {
+            return (
 
-            <div className="text-center md:mt-28 mt-10 px-4">
-                <h2 className="text-2xl md:text-4xl font-bold text-red-500 mb-4">Post Limit Reached</h2>
-                <p className="mb-4 text-gray-600">You can only add 5 posts as a free user.</p>
-                <Link to={'/membership'}>
-                    <button className="px-5 py-2 bg-gradient-to-r from-[#ad4df1] to-[#5191f7] text-white rounded-md"> Become a Member </button>
-                </Link>
-            </div>
+                <div className="text-center md:mt-28 mt-10 px-4">
+                    <h2 className="text-2xl md:text-4xl font-bold text-red-500 mb-4">Post Limit Reached</h2>
+                    <p className="mb-4 text-gray-600">You can only add 5 posts as a free user.</p>
+                    <Link to={'/membership'}>
+                        <button className="px-5 py-2 bg-gradient-to-r from-[#ad4df1] to-[#5191f7] text-white rounded-md"> Become a Member </button>
+                    </Link>
+                </div>
 
-        );
-    }}
+            );
+        }
+    }
 
     return (
-        <div className="max-w-3xl mx-auto mt-10 border p-6 rounded-xl shadow-md bg-white px-4">
+        <div className="max-w-3xl mx-auto md:-mt-5 border p-6 rounded-xl shadow-md bg-white px-4">
             <h2 className="text-3xl font-bold mb-6 text-center">📝 Add New Post</h2>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
 
@@ -135,7 +130,7 @@ const AddPost = () => {
                     render={({ field }) => (
                         <Select
                             {...field}
-                            options={tagOptions}
+                            options={tags.map(tag => ({ value: tag._id, label: tag.name }))}
                             placeholder="Select a Tag"
                             className="w-full"
                         />
@@ -144,7 +139,7 @@ const AddPost = () => {
 
                 {/* Submit Button */}
                 <div className="text-center pt-4">
-                    <button type="submit" className="btn btn-primary w-full sm:w-1/2">
+                    <button type="submit" className="btn text-white bg-gradient-to-r from-[#ad4df1] to-[#5191f7] w-full sm:w-1/2">
                         ➕ Submit Post
                     </button>
                 </div>

@@ -5,9 +5,9 @@ import useAuth from '../../Hooks/useAuth';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import { BiSolidLike } from 'react-icons/bi';
 
-const PostCard = ({ post }) => {
+const PostCard = ({ post, updatePost }) => {
     // console.log(post)
-    const { user, refetch } = useAuth();
+    const { user } = useAuth();
     const axiosSecure = useAxiosSecure()
 
 
@@ -17,8 +17,9 @@ const PostCard = ({ post }) => {
                 email: user.email,
                 type: type
             });
-            if (res.data.success) {
-                refetch();
+
+            if (res.data.updatedPost) {
+                updatePost(res.data.updatedPost);
             }
         } catch (error) {
             console.error(error);
