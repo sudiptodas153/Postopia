@@ -76,7 +76,7 @@ const AuthProvider = ({ children }) => {
     })
 
 
-    const { data: userInfo = {}} = useQuery({
+    const { data: userInfo = {} } = useQuery({
         queryKey: ['user-info', user?.email],
         enabled: !!user?.email,
         queryFn: async () => {
@@ -85,7 +85,18 @@ const AuthProvider = ({ children }) => {
         }
     });
 
-  
+
+    // announcement
+    const { data: announcements = [] } = useQuery({
+        queryKey: ['announcements'],
+        queryFn: async () => {
+            const res = await axiosSecure.get('/announcements');
+            return res.data;
+        },
+    });
+
+    // console.log(announcements.length)
+
 
 
     const authInfo = {
@@ -102,7 +113,8 @@ const AuthProvider = ({ children }) => {
         signOutUser,
         posts,
         refetch,
-        userInfo
+        userInfo,
+        announcements
     }
 
     return (

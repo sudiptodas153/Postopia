@@ -16,6 +16,7 @@ import ManageUsers from "../page/DashboardLayout/ManageUsers";
 import ReportedActivities from "../page/DashboardLayout/ReportedActivities";
 import MakeAnnouncement from "../page/DashboardLayout/MakeAnnouncement";
 import AdminDashboardLayout from "../page/DashboardLayout/AdminDashboardLayout";
+import PostDetails from "../page/PostDetails/PostDetails";
 
 
 export const router = createBrowserRouter([
@@ -30,7 +31,12 @@ export const router = createBrowserRouter([
       {
         path: 'membership',
         Component: Membership
+      },
+      {
+        path: "/post/:id",
+        Component: PostDetails
       }
+
     ]
   },
   {

@@ -22,7 +22,7 @@ const Register = () => {
                 const userInfo = {
                     email: data.email,
                     name: data.name,
-                    photoURL: data.photo,
+                    photoURL: image,
                     role: 'user',
                     isMember: false,
                     badge: 'bronze'

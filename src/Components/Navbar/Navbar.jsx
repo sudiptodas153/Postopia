@@ -8,7 +8,7 @@ import useAxiosSecure from '../../Hooks/useAxiosSecure';
 
 const Navbar = () => {
 
-    const { user, signOutUser } = useAuth()
+    const { user, signOutUser, announcements } = useAuth()
     const axiosSecure = useAxiosSecure()
     const links = <>
         <li><NavLink to={'/'}>Home</NavLink></li>
@@ -42,7 +42,7 @@ const Navbar = () => {
 // console.log(admins[0]?.email)
 
 
-    const announcementCount = 1;
+    const announcementCount = announcements.length;
     return (
         <div className="navbar bg-base-100 shadow-sm md:px-12">
             <div className="navbar-start">
