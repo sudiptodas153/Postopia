@@ -7,6 +7,7 @@ import { WhatsappShareButton, WhatsappIcon } from 'react-share';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import useAuth from '../../Hooks/useAuth';
 import { RiDeleteBinLine } from "react-icons/ri";
+import Loading from '../Loading/Loading';
 
 const PostDetails = () => {
     const { id } = useParams();
@@ -100,7 +101,7 @@ const PostDetails = () => {
     };
 
 
-    if (!post) return <p className="text-center py-10">Loading...</p>;
+    if (!post) return <p className="text-center py-10"><Loading></Loading></p>;
 
     const voted = post.votedUsers?.find(v => v.email === user?.email);
     const liked = voted?.type === 'like';

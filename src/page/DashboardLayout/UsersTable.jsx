@@ -26,9 +26,9 @@ const UsersTable = ({ users, refetch, paidEmails, loggedInUserEmail }) => {
     });
 
     return (
-        <div className="overflow-x-auto">
+        <div className="overflow-x-auto overflow-auto max-h-64">
             <table className="min-w-full table-auto border-collapse border border-gray-300">
-                <thead>
+                <thead className=" sticky top-0 z-10 shadow-sm">
                     <tr className="bg-gray-100">
                         <th className="border border-gray-300 px-2 sm:px-4 py-2 text-left">Name</th>
                         <th className="border border-gray-300 px-2 sm:px-4 py-2 text-left">Email</th>
@@ -36,6 +36,7 @@ const UsersTable = ({ users, refetch, paidEmails, loggedInUserEmail }) => {
                         <th className="border border-gray-300 px-2 sm:px-4 py-2 text-left">Action</th>
                     </tr>
                 </thead>
+
                 <tbody>
                     {sortedUsers.map(user => (
                         <tr key={user._id} className="hover:bg-gray-50">

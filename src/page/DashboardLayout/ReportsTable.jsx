@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 const ReportsTable = ({ reports, refetch }) => {
     const axiosSecure = useAxiosSecure();
 
-    // ❌ Delete reported post/comment & its report entry
+   
     const handleDeletePost = async (targetId, reportId) => {
         const confirmResult = await Swal.fire({
             title: "Are you sure?",
@@ -16,7 +16,6 @@ const ReportsTable = ({ reports, refetch }) => {
 
         if (confirmResult.isConfirmed) {
             try {
-                await axiosSecure.delete(`/posts/${targetId}`);
                 await axiosSecure.delete(`/reports/${reportId}`);
                 Swal.fire("Deleted!", "The content and report were deleted.", "success");
                 refetch();
@@ -50,12 +49,11 @@ const ReportsTable = ({ reports, refetch }) => {
     return (
         <div className="overflow-x-auto md:h-72 border border-gray-200 rounded-md bg-white">
             <table className="min-w-full divide-y divide-gray-200 text-sm">
-                <thead className="bg-gray-100 text-gray-700 uppercase text-xs">
+                <thead className="bg-gray-100  sticky top-0 z-10 text-gray-700 uppercase text-xs">
                     <tr>
                         <th className="px-4 py-3 text-left">Reporter</th>
                         <th className="px-4 py-3 text-left">Email</th>
                         <th className="px-4 py-3 text-left">Reason</th>
-                        <th className="px-4 py-3 text-left">Reported Text</th>
                         <th className="px-4 py-3 text-center">Delete</th>
                         <th className="px-4 py-3 text-center">Dismiss</th>
                     </tr>
@@ -73,12 +71,7 @@ const ReportsTable = ({ reports, refetch }) => {
                                 <td className="px-4 py-3">{report.reportedByName}</td>
                                 <td className="px-4 py-3">{report.reportedByEmail}</td>
                                 <td className="px-4 py-3">{report.feedback || "N/A"}</td>
-                                <td
-                                    className="px-4 py-3 max-w-xs truncate"
-                                    title={report.commentText || report.postText}
-                                >
-                                    {report.commentText || report.postText || "N/A"}
-                                </td>
+                               
                                 <td className="px-4 py-3 text-center">
                                     <button
                                         onClick={() => handleDeletePost(report.commentId || report.postId, report._id)}

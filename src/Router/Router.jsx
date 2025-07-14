@@ -18,39 +18,48 @@ import MakeAnnouncement from "../page/DashboardLayout/MakeAnnouncement";
 import AdminDashboardLayout from "../page/DashboardLayout/AdminDashboardLayout";
 import PostDetails from "../page/PostDetails/PostDetails";
 import CommentReportPage from "../page/CommentReportPage/CommentReportPage";
+import Loading from "../page/Loading/Loading";
 
 
 export const router = createBrowserRouter([
   {
     path: "/",
     Component: RootLayout,
+    hydrateFallbackElement: <Loading></Loading>,
     children: [
       {
         index: true,
+        hydrateFallbackElement: <Loading></Loading>,
         Component: Home
       },
       {
         path: 'membership',
+        hydrateFallbackElement: <Loading></Loading>,
         Component: Membership
       },
       {
         path: "/post/:id",
+        hydrateFallbackElement: <Loading></Loading>,
         Component: PostDetails
       },
 
 
     ]
   },
+
   {
     path: "/",
     Component: AuthLayout,
+    hydrateFallbackElement: <Loading></Loading>,
     children: [
       {
         path: 'register',
+        hydrateFallbackElement: <Loading></Loading>,
         Component: Register
       },
       {
         path: 'login',
+        hydrateFallbackElement: <Loading></Loading>,
         Component: Login
       },
     ]
@@ -59,6 +68,7 @@ export const router = createBrowserRouter([
   {
   path: "/user-dashboard",
   element: <PrivateRoute><DashboardLayout /></PrivateRoute>,
+  hydrateFallbackElement: <Loading></Loading>,
   children: [
     { index: true, Component: MyProfile },
     { path: "addPost", Component: AddPost },
@@ -70,6 +80,7 @@ export const router = createBrowserRouter([
 
   {
     path: "/admin-dashboard",
+    hydrateFallbackElement: <Loading></Loading>,
     element: (
       <PrivateRoute>
         <AdminDashboardLayout></AdminDashboardLayout>

@@ -49,7 +49,7 @@ const ManageUsers = () => {
                     setPage(1); // search করলে প্রথম পেজে নিয়ে যাবে
                 }}
             />
-            <div className="overflow-auto max-h-64 border border-gray-300 rounded-md shadow-sm">
+            <div className=" border border-gray-300 rounded-md shadow-sm">
                 <UsersTable
                     users={users}
                     refetch={fetchUsers}
@@ -65,7 +65,7 @@ const ManageUsers = () => {
                     <button
                         key={idx}
                         onClick={() => setPage(idx + 1)}
-                        className={`btn btn-sm ${page === idx + 1 ? 'btn-active btn-primary' : 'btn-outline'}`}
+                        className={`btn btn-sm ${page === idx + 1 ? 'btn-active bg-gradient-to-r from-[#ad4df1] to-[#5191f7] text-white' : 'btn-outline'}`}
                     >
                         {idx + 1}
                     </button>

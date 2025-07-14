@@ -91,10 +91,10 @@ const CommentReport = () => {
     // console.log(reported)
 
     return (
-        <div className="max-w-5xl mx-auto px-4 py-8">
+        <div className="max-w-5xl  mx-auto px-4 ">
             <h2 className="text-3xl font-bold mb-6 text-center">Comments</h2>
 
-            <div className="overflow-x-auto bg-white border shadow rounded-lg">
+            <div className="overflow-x-auto overflow-auto md:h-[360px] bg-white border shadow rounded-lg">
                 <table className="min-w-full text-sm text-center">
                     <thead className="bg-gray-100 text-gray-600 font-semibold sticky top-0">
                         <tr>
