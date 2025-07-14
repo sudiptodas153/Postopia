@@ -4,6 +4,7 @@ import PostCard from '../../Components/PostCard/PostCard';
 import Pagination from '../../Components/Pagination/Pagination';
 import usePosts from '../../Hooks/usePosts';
 import AllTags from '../../Components/AllTags/AllTags';
+import AnnouncementList from '../../Components/AnnouncementList/AnnouncementList';
 // import useAuth from '../../Hooks/useAuth';
 
 const Home = () => {
@@ -24,6 +25,8 @@ const Home = () => {
             <Banner />
 
             <AllTags></AllTags>
+
+            <AnnouncementList></AnnouncementList>
 
             {/* View Selection Buttons */}
             <div className="flex justify-center gap-4 mb-6">

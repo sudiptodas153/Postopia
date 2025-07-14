@@ -17,6 +17,7 @@ import ReportedActivities from "../page/DashboardLayout/ReportedActivities";
 import MakeAnnouncement from "../page/DashboardLayout/MakeAnnouncement";
 import AdminDashboardLayout from "../page/DashboardLayout/AdminDashboardLayout";
 import PostDetails from "../page/PostDetails/PostDetails";
+import CommentReportPage from "../page/CommentReportPage/CommentReportPage";
 
 
 export const router = createBrowserRouter([
@@ -35,7 +36,8 @@ export const router = createBrowserRouter([
       {
         path: "/post/:id",
         Component: PostDetails
-      }
+      },
+
 
     ]
   },
@@ -53,24 +55,18 @@ export const router = createBrowserRouter([
       },
     ]
   },
+
   {
-    path: "/user-dashboard",
-    element: <PrivateRoute><DashboardLayout></DashboardLayout></PrivateRoute>,
-    children: [
-      {
-        index: true,
-        Component: MyProfile,
-      },
-      {
-        path: "addPost",
-        Component: AddPost,
-      },
-      {
-        path: "myPosts",
-        Component: MyPosts,
-      }
-    ]
-  },
+  path: "/user-dashboard",
+  element: <PrivateRoute><DashboardLayout /></PrivateRoute>,
+  children: [
+    { index: true, Component: MyProfile },
+    { path: "addPost", Component: AddPost },
+    { path: "myPosts", Component: MyPosts },
+    { path: "comments/:postId", Component: CommentReportPage } 
+  ]
+},
+
 
   {
     path: "/admin-dashboard",

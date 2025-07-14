@@ -1,5 +1,5 @@
 // import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+import { Link } from "react-router";
 
 import useAuth from "../../Hooks/useAuth";
 import Swal from "sweetalert2";
@@ -9,7 +9,6 @@ import useAxiosSecure from "../../Hooks/useAxiosSecure";
 const MyPosts = () => {
     const { posts, refetch } = useAuth();
     const axiosSecure = useAxiosSecure()
-    const navigate = useNavigate();
     //   const [posts, setPosts] = useState([]);
 
 
@@ -77,9 +76,9 @@ const MyPosts = () => {
                                     <td className="p-3 border-b">{title}</td>
                                     <td className="p-3 border-b">{upVote - downVote}</td>
                                     <td className="p-3 border-b">
-                                        <button onClick={() => navigate(`/comments/${_id}`)} className="btn btn-sm btn-info hover:bg-sky-200">
+                                        <Link to={`/user-dashboard/comments/${_id}`} className="btn btn-sm btn-info hover:bg-sky-200">
                                             Comments
-                                        </button>
+                                        </Link>
                                     </td>
                                     <td className="p-3 border-b">
                                         <button onClick={() => handleDelete(_id)} className="btn btn-sm btn-error hover:text-white hover:bg-red-700">

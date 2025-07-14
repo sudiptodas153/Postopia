@@ -26,7 +26,7 @@ const AllTags = () => {
     };
 
     return (
-        <div className="max-w-4xl mx-auto my-10 p-6 bg-white rounded-xl shadow border border-purple-300">
+        <div className=" p-6 bg-white rounded-xl shadow border border-purple-300">
             <h2 className="text-2xl font-bold mb-4 text-center text-purple-700">Explore Tags</h2>
             {tags.length === 0 ? (
                 <p className="text-center text-gray-500">No tags available.</p>
