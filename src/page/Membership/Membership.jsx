@@ -8,10 +8,13 @@ const stripePromise = loadStripe(import.meta.env.VITE_PAYMENT);
 const Membership = () => {
     const { userInfo } = useAuth();
 
+
+    
+
     return (
         <div className="px-4 sm:px-6 md:px-8 lg:px-10">
             <div className="max-w-2xl mx-auto my-10 md:my-20 p-6 md:p-10 bg-white shadow-lg rounded-2xl">
-                {userInfo.isMember ? (
+                {userInfo?.isMember? (
                     <div className="text-center space-y-3">
                         <h2 className="text-2xl md:text-3xl font-bold text-green-600">
                             🎉 You are already a Gold Member!

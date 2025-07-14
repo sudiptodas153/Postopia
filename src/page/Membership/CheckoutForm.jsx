@@ -8,14 +8,14 @@ import Swal from 'sweetalert2';
 const CheckoutForm = () => {
     const stripe = useStripe();
     const elements = useElements();
-    const { user } = useAuth();
+    const { user, usersinfo } = useAuth();
     const axiosSecure = useAxiosSecure();
     // const navigate = useNavigate();
 
     const [processing, setProcessing] = useState(false);
     const [error, setError] = useState('');
 
-    // const handleSubmit = async (e) => {
+
     //     e.preventDefault();
 
     //     if (!stripe || !elements) return;
@@ -108,6 +108,8 @@ const CheckoutForm = () => {
                     title: 'Payment Successful!',
                     text: 'You are now a Gold Member!',
                 });
+                usersinfo()
+                
             }
             else {
                 Swal.fire({

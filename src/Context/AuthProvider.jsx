@@ -76,7 +76,7 @@ const AuthProvider = ({ children }) => {
     })
 
 
-    const { data: userInfo = {} } = useQuery({
+    const { data: userInfo, refetch: usersinfo } = useQuery({
         queryKey: ['user-info', user?.email],
         enabled: !!user?.email,
         queryFn: async () => {
@@ -98,7 +98,7 @@ const AuthProvider = ({ children }) => {
     // console.log(announcements.length)
 
     // comments
-    
+
 
 
 
@@ -117,7 +117,8 @@ const AuthProvider = ({ children }) => {
         posts,
         refetch,
         userInfo,
-        announcements
+        announcements,
+        usersinfo,
     }
 
     return (

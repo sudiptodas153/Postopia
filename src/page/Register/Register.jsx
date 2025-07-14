@@ -4,6 +4,7 @@ import useAuth from '../../Hooks/useAuth';
 import { useLocation, useNavigate } from 'react-router';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const Register = () => {
     const axiosSecure = useAxiosSecure()
@@ -30,11 +31,27 @@ const Register = () => {
                 axiosSecure.post('users', userInfo)
                     .then(() => {
                         setUser({ ...user, displayName: data.name, photoURL: image })
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Registration Successful',
+                            text: 'Welcome to the forum!',
+                            confirmButtonColor: '#10B981', // green tone
+                            timer: 2000,
+                        });
+
                         setTimeout(() => {
                             navigate(from, { replace: true });
                         }, 500);
                     })
-                    .catch(() => { })
+                    .catch((err) => {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Registration Failed',
+                            text: err.message || 'Please try again later.',
+                            confirmButtonColor: '#EF4444',
+                        });
+
+                    })
 
             })
             .catch(e => {
@@ -59,6 +76,14 @@ const Register = () => {
 
                 axiosSecure.post('users', userInfo)
                     .then(() => {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Login Successful',
+                            text: 'Welcome back!',
+                            confirmButtonColor: '#6366F1', // Indigo tone
+                            timer: 2000,
+                        });
+
                         setTimeout(() => {
                             navigate(from, { replace: true });
                         }, 500);

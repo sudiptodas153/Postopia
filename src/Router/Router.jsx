@@ -19,6 +19,7 @@ import AdminDashboardLayout from "../page/DashboardLayout/AdminDashboardLayout";
 import PostDetails from "../page/PostDetails/PostDetails";
 import CommentReportPage from "../page/CommentReportPage/CommentReportPage";
 import Loading from "../page/Loading/Loading";
+import ErrorPage from "../page/ErrorPage/ErrorPage";
 
 
 export const router = createBrowserRouter([
@@ -26,6 +27,7 @@ export const router = createBrowserRouter([
     path: "/",
     Component: RootLayout,
     hydrateFallbackElement: <Loading></Loading>,
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       {
         index: true,
@@ -51,6 +53,7 @@ export const router = createBrowserRouter([
     path: "/",
     Component: AuthLayout,
     hydrateFallbackElement: <Loading></Loading>,
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       {
         path: 'register',
@@ -68,6 +71,7 @@ export const router = createBrowserRouter([
   {
   path: "/user-dashboard",
   element: <PrivateRoute><DashboardLayout /></PrivateRoute>,
+  errorElement: <ErrorPage></ErrorPage>,
   hydrateFallbackElement: <Loading></Loading>,
   children: [
     { index: true, Component: MyProfile },
@@ -81,6 +85,7 @@ export const router = createBrowserRouter([
   {
     path: "/admin-dashboard",
     hydrateFallbackElement: <Loading></Loading>,
+    errorElement: <ErrorPage></ErrorPage>,
     element: (
       <PrivateRoute>
         <AdminDashboardLayout></AdminDashboardLayout>

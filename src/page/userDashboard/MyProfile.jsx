@@ -6,6 +6,7 @@ import { AiFillDislike, AiOutlineDislike, AiOutlineLike } from "react-icons/ai";
 import { FaRegCommentAlt } from "react-icons/fa";
 import { BiSolidLike } from "react-icons/bi";
 import PostCard from "../../Components/PostCard/PostCard";
+import Loading from "../Loading/Loading";
 
 
 const MyProfile = () => {
@@ -37,7 +38,7 @@ const MyProfile = () => {
 
 
 
-    if (!user) return <p>Loading...</p>;
+    if (!user) return <p><Loading /></p>;
 
     return (
         <div className="max-w-3xl mx-auto md:h-[420px]  p-6 bg-white rounded shadow">

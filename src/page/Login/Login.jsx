@@ -4,6 +4,7 @@ import { FaSignInAlt } from 'react-icons/fa';
 import useAuth from '../../Hooks/useAuth';
 import { useLocation, useNavigate } from 'react-router';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
+import Swal from 'sweetalert2';
 
 const Login = () => {
     const { googleLogin, signIn } = useAuth()
@@ -14,13 +15,29 @@ const Login = () => {
     const from = location.state?.from?.pathname || '/';
     const { register, handleSubmit } = useForm();
     const onSubmit = data => {
-       signIn(data.email, data.password)
+        signIn(data.email, data.password)
             .then(() => {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Login Successful',
+                    text: 'Welcome back!',
+                    confirmButtonColor: '#6366F1', // Indigo tone
+                    timer: 2000,
+                });
+
                 setTimeout(() => {
                     navigate(from, { replace: true });
                 }, 500);
             })
-            .catch(() => { })
+            .catch(() => {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Login Failed',
+                    text: 'Invalid email or password!',
+                    confirmButtonColor: '#EF4444'
+                });
+
+            })
     };
 
 
@@ -39,6 +56,14 @@ const Login = () => {
 
                 axiosSecure.post('users', userInfo)
                     .then(() => {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Login Successful',
+                            text: 'Welcome back!',
+                            confirmButtonColor: '#6366F1', // Indigo tone
+                            timer: 2000,
+                        });
+
                         setTimeout(() => {
                             navigate(from, { replace: true });
                         }, 500);

@@ -10,11 +10,12 @@ import {
     ResponsiveContainer,
 } from "recharts";
 import Swal from "sweetalert2";
+import Loading from "../Loading/Loading";
 
 const COLORS = ["#6366F1", "#F97316", "#10B981"];
 
 const AdminProfile = () => {
-    const { user } = useAuth();
+    const { user, loading } = useAuth();
     const axiosSecure = useAxiosSecure();
 
     const [stats, setStats] = useState({
@@ -52,7 +53,7 @@ const AdminProfile = () => {
     const handleAddTag = async (e) => {
         e.preventDefault();
         if (!tagInput.trim()) return;
-        
+
         try {
             const res = await axiosSecure.post("/tags", { name: tagInput.trim() });
             setTags([...tags, res.data]);
@@ -69,17 +70,21 @@ const AdminProfile = () => {
         { name: "Users", value: stats.totalUsers },
     ];
 
-  
+
 
     return (
-        <div className="max-w-5xl mx-auto p-4 sm:p-6 lg:p-8 space-y-10">
-            {/* Title */}
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-center text-indigo-600">
-                Admin Profile
-            </h2>
+        <div>
+        {
+            loading ?<Loading /> :
 
-            {/* Admin Info */}
-            <div className="flex flex-col lg:flex-row items-center lg:items-start gap-8 bg-white shadow rounded-xl p-6">
+                <div className = "max-w-5xl mx-auto p-4 sm:p-6 lg:p-8 space-y-10">
+            {/* Title */ }
+            <h2 h2 className = "text-3xl sm:text-4xl font-extrabold text-center text-indigo-600" >
+        Admin Profile
+            </h2 >
+
+    {/* Admin Info */ }
+    <div div className = "flex flex-col lg:flex-row items-center lg:items-start gap-8 bg-white shadow rounded-xl p-6" >
                 <div className="flex justify-center">
                     <img
                         src={user?.photoURL || "https://via.placeholder.com/150?text=Admin"}
@@ -119,10 +124,10 @@ const AdminProfile = () => {
                         <span>{stats.totalUsers}</span>
                     </div>
                 </div>
-            </div>
+            </div >
 
-            {/* Chart */}
-            <div className="bg-white shadow rounded-xl p-6">
+    {/* Chart */ }
+    <div div className = "bg-white shadow rounded-xl p-6" >
                 <h3 className="text-xl font-semibold text-center mb-4">
                     Site Statistics Overview
                 </h3>
@@ -151,10 +156,10 @@ const AdminProfile = () => {
                         </PieChart>
                     </ResponsiveContainer>
                 </div>
-            </div>
+            </div >
 
-            {/* Add Tag Section */}
-            <div className="bg-white shadow rounded-xl p-6">
+    {/* Add Tag Section */ }
+    <div div className = "bg-white shadow rounded-xl p-6" >
                 <h3 className="text-xl font-semibold mb-4">Add New Tag</h3>
                 <form
                     onSubmit={handleAddTag}
@@ -175,25 +180,30 @@ const AdminProfile = () => {
                     </button>
                 </form>
 
-                {/* Tags List */}
-                {tags.length > 0 && (
-                    <div className="mt-4">
-                        <h4 className="font-semibold mb-2">Existing Tags:</h4>
-                        <div className="flex flex-wrap gap-2">
-                            {tags.map((tag, idx) => (
-                                <span
-                                    key={idx}
-                                    className="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-sm"
-                                >
-                                    {tag.name}
-                                </span>
-                            ))}
-                        </div>
-                    </div>
-                )}
+{/* Tags List */ }
+{
+    tags.length > 0 && (
+        <div className="mt-4">
+            <h4 className="font-semibold mb-2">Existing Tags:</h4>
+            <div className="flex flex-wrap gap-2">
+                {tags.map((tag, idx) => (
+                    <span
+                        key={idx}
+                        className="bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full text-sm"
+                    >
+                        {tag.name}
+                    </span>
+                ))}
             </div>
         </div>
+    )
+}
+            </div >
+        </div >
+        }
+        </div>
     );
+    
 };
 
 export default AdminProfile;
