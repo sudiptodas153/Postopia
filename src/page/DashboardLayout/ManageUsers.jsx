@@ -7,17 +7,22 @@ import useAuth from '../../Hooks/useAuth';
 const ManageUsers = () => {
     const [users, setUsers] = useState([]);
     const [search, setSearch] = useState('');
+    const [page, setPage] = useState(1);
+    const [totalUsers, setTotalUsers] = useState(0);
+    const usersPerPage = 10;
+
     const axiosSecure = useAxiosSecure();
-    const { user } = useAuth()
+    const { user } = useAuth();
+
     const fetchUsers = async () => {
-        const { data } = await axiosSecure.get(`/users?search=${search}`);
-        setUsers(data);
+        const res = await axiosSecure.get(`/users-pag?search=${search}&page=${page}&limit=${usersPerPage}`);
+        setUsers(res.data.users);
+        setTotalUsers(res.data.total); // you'll return this from the backend
     };
 
     useEffect(() => {
         fetchUsers();
-    }, [search]);
-
+    }, [search, page]);
 
     const { data: payments = [] } = useQuery({
         queryKey: ['payments'],
@@ -29,7 +34,7 @@ const ManageUsers = () => {
 
     const paidEmails = payments.map(payment => payment.email);
 
-
+    const totalPages = Math.ceil(totalUsers / usersPerPage);
 
     return (
         <div>
@@ -39,12 +44,35 @@ const ManageUsers = () => {
                 placeholder="Search by username"
                 className="input input-bordered mb-4"
                 value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={(e) => {
+                    setSearch(e.target.value);
+                    setPage(1); // search করলে প্রথম পেজে নিয়ে যাবে
+                }}
             />
+            <div className="overflow-auto max-h-64 border border-gray-300 rounded-md shadow-sm">
+                <UsersTable
+                    users={users}
+                    refetch={fetchUsers}
+                    paidEmails={paidEmails}
+                    loggedInUserEmail={user?.email}
+                />
+            </div>
 
-            <UsersTable users={users} refetch={fetchUsers} paidEmails={paidEmails} loggedInUserEmail={user?.email} />
 
+            {/* Pagination ফিক্সড নিচে থাকবে */}
+            <div className="border-t border-gray-300 p-4 bg-white flex justify-center space-x-2">
+                {Array.from({ length: totalPages }, (_, idx) => (
+                    <button
+                        key={idx}
+                        onClick={() => setPage(idx + 1)}
+                        className={`btn btn-sm ${page === idx + 1 ? 'btn-active btn-primary' : 'btn-outline'}`}
+                    >
+                        {idx + 1}
+                    </button>
+                ))}
+            </div>
         </div>
+
     );
 };
 

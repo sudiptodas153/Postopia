@@ -4,79 +4,103 @@ import Swal from "sweetalert2";
 const ReportsTable = ({ reports, refetch }) => {
     const axiosSecure = useAxiosSecure();
 
-    // Delete the post/comment related to this report
-    const handleDeletePost = async (targetId) => {
+    // ❌ Delete reported post/comment & its report entry
+    const handleDeletePost = async (targetId, reportId) => {
         const confirmResult = await Swal.fire({
             title: "Are you sure?",
-            text: "This will delete the reported post/comment permanently!",
+            text: "This will delete the reported content permanently.",
             icon: "warning",
             showCancelButton: true,
             confirmButtonText: "Yes, delete it!",
-            cancelButtonText: "Cancel",
         });
 
         if (confirmResult.isConfirmed) {
             try {
-                await axiosSecure.delete(`/posts/${targetId}`); // Adjust endpoint if needed
-                await axiosSecure.delete(`/reports/${targetId}`); // Optionally remove the report after post delete
-                Swal.fire("Deleted!", "The post/comment has been deleted.", "success");
+                await axiosSecure.delete(`/posts/${targetId}`);
+                await axiosSecure.delete(`/reports/${reportId}`);
+                Swal.fire("Deleted!", "The content and report were deleted.", "success");
                 refetch();
             } catch (error) {
-                Swal.fire("Error!", "Failed to delete post/comment.", error);
+                Swal.fire("Error", "Failed to delete the content.", error);
             }
         }
     };
 
-    // Dismiss the report only (mark as handled)
+    // ✅ Dismiss the report only
     const handleDismiss = async (reportId) => {
-        try {
-            await axiosSecure.delete(`/reports/${reportId}`);
-            Swal.fire("Dismissed!", "The report has been dismissed.", "success");
-            refetch();
-        } catch (error) {
-            Swal.fire("Error!", "Failed to dismiss the report.", error);
+        const confirm = await Swal.fire({
+            title: "Dismiss report?",
+            text: "The content will remain, and this report will be marked as handled.",
+            icon: "info",
+            showCancelButton: true,
+            confirmButtonText: "Yes, dismiss it",
+        });
+
+        if (confirm.isConfirmed) {
+            try {
+                await axiosSecure.delete(`/reports/${reportId}`);
+                Swal.fire("Dismissed!", "The report has been dismissed.", "success");
+                refetch();
+            } catch (error) {
+                Swal.fire("Error", "Failed to dismiss the report.", error);
+            }
         }
     };
 
     return (
-        <table className="min-w-full border border-gray-300 rounded-md overflow-hidden">
-            <thead className="bg-gray-100 text-gray-700 font-semibold sticky top-0">
-                <tr>
-                    <th className="p-3 border-b">Reported By</th>
-                    <th className="p-3 border-b">Reason</th>
-                    <th className="p-3 border-b">Reported Text</th>
-                    <th className="p-3 border-b">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {reports.map((report) => (
-                    <tr
-                        key={report._id}
-                        className="hover:bg-gray-50 border-b text-center"
-                    >
-                        <td className="p-3">{report.reportedByName || report.reportedByEmail || "Unknown"}</td>
-                        <td className="p-3">{report.reason || report.feedback || "N/A"}</td>
-                        <td className="p-3 max-w-xs truncate" title={report.targetText}>
-                            {report.targetText}
-                        </td>
-                        <td className="p-3 space-x-2">
-                            <button
-                                onClick={() => handleDeletePost(report.targetId)}
-                                className="btn btn-sm btn-error"
-                            >
-                                Delete Post/Comment
-                            </button>
-                            <button
-                                onClick={() => handleDismiss(report._id)}
-                                className="btn btn-sm btn-success"
-                            >
-                                Dismiss Report
-                            </button>
-                        </td>
+        <div className="overflow-x-auto md:h-72 border border-gray-200 rounded-md bg-white">
+            <table className="min-w-full divide-y divide-gray-200 text-sm">
+                <thead className="bg-gray-100 text-gray-700 uppercase text-xs">
+                    <tr>
+                        <th className="px-4 py-3 text-left">Reporter</th>
+                        <th className="px-4 py-3 text-left">Email</th>
+                        <th className="px-4 py-3 text-left">Reason</th>
+                        <th className="px-4 py-3 text-left">Reported Text</th>
+                        <th className="px-4 py-3 text-center">Delete</th>
+                        <th className="px-4 py-3 text-center">Dismiss</th>
                     </tr>
-                ))}
-            </tbody>
-        </table>
+                </thead>
+                <tbody className="divide-y divide-gray-200">
+                    {reports.length === 0 ? (
+                        <tr>
+                            <td colSpan="6" className="text-center py-6 text-gray-500">
+                                No reports found.
+                            </td>
+                        </tr>
+                    ) : (
+                        reports.map((report) => (
+                            <tr key={report._id} className="hover:bg-gray-50">
+                                <td className="px-4 py-3">{report.reportedByName}</td>
+                                <td className="px-4 py-3">{report.reportedByEmail}</td>
+                                <td className="px-4 py-3">{report.feedback || "N/A"}</td>
+                                <td
+                                    className="px-4 py-3 max-w-xs truncate"
+                                    title={report.commentText || report.postText}
+                                >
+                                    {report.commentText || report.postText || "N/A"}
+                                </td>
+                                <td className="px-4 py-3 text-center">
+                                    <button
+                                        onClick={() => handleDeletePost(report.commentId || report.postId, report._id)}
+                                        className="btn btn-xs bg-red-500 text-white hover:bg-red-600"
+                                    >
+                                        Delete
+                                    </button>
+                                </td>
+                                <td className="px-4 py-3 text-center">
+                                    <button
+                                        onClick={() => handleDismiss(report._id)}
+                                        className="btn btn-xs bg-green-500 text-white hover:bg-green-600"
+                                    >
+                                        Dismiss
+                                    </button>
+                                </td>
+                            </tr>
+                        ))
+                    )}
+                </tbody>
+            </table>
+        </div>
     );
 };
 
