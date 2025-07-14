@@ -58,10 +58,10 @@ const PostDetails = () => {
 
 
 
-    console.log(comments)
+    // console.log(comments)
 
     const handleVote = async (type) => {
-        if (!user) return alert("Please login to vote");
+        if (!user) return ;
 
         try {
             const res = await axiosSecure.patch(`/posts/vote/${id}`, {
@@ -146,18 +146,18 @@ const PostDetails = () => {
 
             {/* Actions */}
             <div className="flex items-center justify-between mt-4 space-x-4">
-                <button onClick={() => handleVote("like")} className="flex items-center gap-1">
+                <button onClick={() => handleVote("like")} className="flex cursor-pointer items-center gap-1">
                     {liked ? <BiSolidLike size={24} /> : <AiOutlineLike size={24} />}
                     {post.upVote || 0}
                 </button>
-                <button onClick={() => handleVote("dislike")} className="flex items-center gap-1">
+                <button onClick={() => handleVote("dislike")} className="flex cursor-pointer items-center gap-1">
                     {disliked ? <AiFillDislike size={24} /> : <AiOutlineDislike size={24} />}
                     {post.downVote || 0}
                 </button>
                 <div className="flex items-center gap-1">
                     <FaRegCommentAlt size={20} /> {comments.length || 0}
                 </div>
-                <WhatsappShareButton url={shareUrl} title={post.title}>
+                <WhatsappShareButton url={user && shareUrl} title={post.title}>
                     <WhatsappIcon size={28} round />
                 </WhatsappShareButton>
             </div>

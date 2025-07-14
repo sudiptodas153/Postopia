@@ -20,6 +20,7 @@ import PostDetails from "../page/PostDetails/PostDetails";
 import CommentReportPage from "../page/CommentReportPage/CommentReportPage";
 import Loading from "../page/Loading/Loading";
 import ErrorPage from "../page/ErrorPage/ErrorPage";
+import About from "../page/About/About";
 
 
 export const router = createBrowserRouter([
@@ -43,6 +44,11 @@ export const router = createBrowserRouter([
         path: "/post/:id",
         hydrateFallbackElement: <Loading></Loading>,
         Component: PostDetails
+      },
+      {
+        path: "about",
+        hydrateFallbackElement: <Loading></Loading>,
+        Component: About
       },
 
 

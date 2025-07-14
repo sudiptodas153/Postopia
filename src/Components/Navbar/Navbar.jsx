@@ -36,6 +36,18 @@ const Navbar = () => {
                 Membership
             </NavLink>
         </li>
+        <li>
+            <NavLink
+                to="/about"
+                className={({ isActive }) =>
+                    isActive
+                        ? 'text-[#ad4df1] font-semibold border-b-2 border-[#ad4df1]'
+                        : 'text-gray-600'
+                }
+            >
+                About Us
+            </NavLink>
+        </li>
     </>
 
 
