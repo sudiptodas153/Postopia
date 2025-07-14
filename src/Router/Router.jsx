@@ -22,6 +22,8 @@ import Loading from "../page/Loading/Loading";
 import ErrorPage from "../page/ErrorPage/ErrorPage";
 import About from "../page/About/About";
 import Leaderboard from "../page/Leaderboard/Leaderboard";
+import AdminRoutes from "../Routes/AdminRoutes";
+import ForbiddenPage from "../page/ForbiddenPage/ForbiddenPage";
 
 
 export const router = createBrowserRouter([
@@ -39,7 +41,7 @@ export const router = createBrowserRouter([
       {
         path: 'membership',
         hydrateFallbackElement: <Loading></Loading>,
-        Component: Membership
+        element: <PrivateRoute><Membership></Membership></PrivateRoute>,
       },
       {
         path: "/post/:id",
@@ -55,6 +57,11 @@ export const router = createBrowserRouter([
         path: "about",
         hydrateFallbackElement: <Loading></Loading>,
         Component: About
+      },
+      {
+        path: "forbidden",
+        hydrateFallbackElement: <Loading></Loading>,
+        Component: ForbiddenPage
       },
 
 
@@ -81,18 +88,19 @@ export const router = createBrowserRouter([
   },
 
   {
-  path: "/user-dashboard",
-  element: <PrivateRoute><DashboardLayout /></PrivateRoute>,
-  errorElement: <ErrorPage></ErrorPage>,
-  hydrateFallbackElement: <Loading></Loading>,
-  children: [
-    { index: true, Component: MyProfile },
-    { path: "addPost", Component: AddPost },
-    { path: "myPosts", Component: MyPosts },
-    { path: "comments/:postId", Component: CommentReportPage } 
-  ]
-},
+    path: "/user-dashboard",
+    element: <PrivateRoute><DashboardLayout /></PrivateRoute>,
+    errorElement: <ErrorPage></ErrorPage>,
+    hydrateFallbackElement: <Loading></Loading>,
+    children: [
+      { index: true, Component: MyProfile },
+      { path: "addPost", Component: AddPost },
+      { path: "myPosts", Component: MyPosts },
+      { path: "comments/:postId", Component: CommentReportPage }
+    ]
+  },
 
+  // Admin
 
   {
     path: "/admin-dashboard",
@@ -110,15 +118,17 @@ export const router = createBrowserRouter([
       },
       {
         path: "manageUsers",
-        Component: ManageUsers,
+        element: <AdminRoutes><ManageUsers></ManageUsers></AdminRoutes>,
       },
       {
         path: "reports",
-        Component: ReportedActivities,
+        element: <AdminRoutes><ReportedActivities></ReportedActivities></AdminRoutes>,
+       
       },
       {
         path: "announcement",
-        Component: MakeAnnouncement,
+        element: <AdminRoutes><MakeAnnouncement></MakeAnnouncement></AdminRoutes>,
+       
       }
     ]
   }

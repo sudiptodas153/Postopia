@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { Outlet, NavLink } from "react-router";
 import { IoHome } from "react-icons/io5";
+import { RiAdminFill } from "react-icons/ri";
+import { ImUsers } from "react-icons/im";
+import { TbMessageReportFilled } from "react-icons/tb";
+import { GrAnnounce } from "react-icons/gr";
 
 const AdminDashboardLayout = () => {
     const [drawerOpen, setDrawerOpen] = useState(false);
@@ -67,7 +71,7 @@ const AdminDashboardLayout = () => {
                         }
                         onClick={() => setDrawerOpen(false)}
                     >
-                        Admin Profile
+                     <RiAdminFill />   Admin Profile
                     </NavLink>
                     <NavLink
                         to="manageUsers"
@@ -78,7 +82,7 @@ const AdminDashboardLayout = () => {
                         }
                         onClick={() => setDrawerOpen(false)}
                     >
-                        Manage Users
+                      <ImUsers />  Manage Users
                     </NavLink>
                     <NavLink
                         to="reports"
@@ -89,7 +93,7 @@ const AdminDashboardLayout = () => {
                         }
                         onClick={() => setDrawerOpen(false)}
                     >
-                        Reported Activities
+                     <TbMessageReportFilled />   Reported Activities
                     </NavLink>
                     <NavLink
                         to="announcement"
@@ -100,7 +104,7 @@ const AdminDashboardLayout = () => {
                         }
                         onClick={() => setDrawerOpen(false)}
                     >
-                        Make Announcement
+                    <GrAnnounce />    Make Announcement
                     </NavLink>
                 </nav>
             </aside>

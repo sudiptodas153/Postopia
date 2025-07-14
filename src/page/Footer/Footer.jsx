@@ -22,16 +22,14 @@ const Footer = () => {
 
                 {/* Right side - Social Icons */}
                 <div className="flex gap-5 ">
-                    <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="hover:text-white transition">
+                    <a href="https://www.facebook.com/sudipto.das.601834" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="hover:text-white transition">
                         <FaFacebookF size={20} />
                     </a>
-                    <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="hover:text-white transition">
-                        <FaTwitter size={20} />
-                    </a>
-                    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="hover:text-white transition">
+                  
+                    <a href="https://www.linkedin.com/in/sudiptodas59/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="hover:text-white transition">
                         <FaLinkedinIn size={20} />
                     </a>
-                    <a href="https://github.com" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="hover:text-white transition">
+                    <a href="https://github.com/sudiptodas153" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="hover:text-white transition">
                         <FaGithub size={20} />
                     </a>
                 </div>
