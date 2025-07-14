@@ -21,6 +21,7 @@ import CommentReportPage from "../page/CommentReportPage/CommentReportPage";
 import Loading from "../page/Loading/Loading";
 import ErrorPage from "../page/ErrorPage/ErrorPage";
 import About from "../page/About/About";
+import Leaderboard from "../page/Leaderboard/Leaderboard";
 
 
 export const router = createBrowserRouter([
@@ -44,6 +45,11 @@ export const router = createBrowserRouter([
         path: "/post/:id",
         hydrateFallbackElement: <Loading></Loading>,
         Component: PostDetails
+      },
+      {
+        path: "top",
+        hydrateFallbackElement: <Loading></Loading>,
+        Component: Leaderboard
       },
       {
         path: "about",

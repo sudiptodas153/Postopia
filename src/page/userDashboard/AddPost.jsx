@@ -65,7 +65,7 @@ const AddPost = () => {
     };
 
     // If post limit reached
-    if (userInfo.isMember === false) {
+    if (userInfo?.isMember === false) {
         if (posts?.length >= 5) {
             return (
 

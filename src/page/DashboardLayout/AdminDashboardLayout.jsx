@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Outlet, NavLink } from "react-router";
+import { IoHome } from "react-icons/io5";
 
 const AdminDashboardLayout = () => {
     const [drawerOpen, setDrawerOpen] = useState(false);
@@ -54,7 +55,7 @@ const AdminDashboardLayout = () => {
                         }
                         onClick={() => setDrawerOpen(false)}
                     >
-                        Home
+                     <IoHome />   Home
                     </NavLink>
                     <NavLink
                         to="/admin-dashboard"

@@ -5,6 +5,7 @@ import Notification from '../Notification/Notification';
 import useAuth from '../../Hooks/useAuth';
 import { useQuery } from '@tanstack/react-query';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
+import Swal from 'sweetalert2';
 
 const Navbar = () => {
 
@@ -38,6 +39,18 @@ const Navbar = () => {
         </li>
         <li>
             <NavLink
+                to="/top"
+                className={({ isActive }) =>
+                    isActive
+                        ? 'text-[#ad4df1] font-semibold border-b-2 border-[#ad4df1]'
+                        : 'text-gray-600'
+                }
+            >
+                Leaderboard
+            </NavLink>
+        </li>
+        <li>
+            <NavLink
                 to="/about"
                 className={({ isActive }) =>
                     isActive
@@ -56,7 +69,15 @@ const Navbar = () => {
     // logout
     const logout = () => {
         signOutUser()
-            .then(() => { })
+            .then(() => {
+                Swal.fire({
+                    title: 'Logged Out!',
+                    text: 'You have been successfully logged out.',
+                    icon: 'success',
+                    timer: 2000,
+                    showConfirmButton: false,
+                });
+            })
             .catch(() => { })
     }
 
@@ -83,68 +104,68 @@ const Navbar = () => {
         <div className="navbar bg-base-100 shadow-sm md:px-12">
             <div className="navbar-start">
 
-               <div>
-                 {/* ✅ Small device drawer button */}
-                <label htmlFor="nav-drawer" className="btn btn-ghost md:hidden">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                </label>
+                <div>
+                    {/* ✅ Small device drawer button */}
+                    <label htmlFor="nav-drawer" className="btn btn-ghost md:hidden">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </label>
 
-                {/* ✅ Drawer markup */}
-                <div className="drawer md:hidden z-50">
-                    <input id="nav-drawer" type="checkbox" className="drawer-toggle" />
-                    <div className="drawer-side">
-                        <label htmlFor="nav-drawer" className="drawer-overlay"></label>
-                        <ul className="menu p-4 w-64 min-h-full bg-base-200 text-base-content space-y-2">
-                            {/* Same links used in desktop navbar */}
-                            <li>
-                                <NavLink
-                                    to="/"
-                                    className={({ isActive }) =>
-                                        isActive
-                                            ? 'text-[#ad4df1] font-semibold border-b-2 border-[#ad4df1]'
-                                            : 'text-gray-600'
-                                    }
-                                >
-                                    Home
-                                </NavLink>
-                            </li>
-                            <li>
-                                <NavLink
-                                    to="/membership"
-                                    className={({ isActive }) =>
-                                        isActive
-                                            ? 'text-[#ad4df1] font-semibold border-b-2 border-[#ad4df1]'
-                                            : 'text-gray-600'
-                                    }
-                                >
-                                    Membership
-                                </NavLink>
-                            </li>
-
-                            {/* Optional: Add Dashboard + Logout/Login for mobile */}
-                            {
-                                user &&
+                    {/* ✅ Drawer markup */}
+                    <div className="drawer md:hidden z-50">
+                        <input id="nav-drawer" type="checkbox" className="drawer-toggle" />
+                        <div className="drawer-side">
+                            <label htmlFor="nav-drawer" className="drawer-overlay"></label>
+                            <ul className="menu p-4 w-64 min-h-full bg-base-200 text-base-content space-y-2">
+                                {/* Same links used in desktop navbar */}
                                 <li>
-                                    {
-                                        admins[0]?.email === user?.email
-                                            ? <Link to="/admin-dashboard">Admin Dashboard</Link>
-                                            : <Link to="/user-dashboard">User Dashboard</Link>
-                                    }
+                                    <NavLink
+                                        to="/"
+                                        className={({ isActive }) =>
+                                            isActive
+                                                ? 'text-[#ad4df1] font-semibold border-b-2 border-[#ad4df1]'
+                                                : 'text-gray-600'
+                                        }
+                                    >
+                                        Home
+                                    </NavLink>
                                 </li>
-                            }
-                            {
-                                user
-                                    ? <li><button onClick={logout}>Logout</button></li>
-                                    : <li><Link to="/login">Join Us</Link></li>
-                            }
-                        </ul>
+                                <li>
+                                    <NavLink
+                                        to="/membership"
+                                        className={({ isActive }) =>
+                                            isActive
+                                                ? 'text-[#ad4df1] font-semibold border-b-2 border-[#ad4df1]'
+                                                : 'text-gray-600'
+                                        }
+                                    >
+                                        Membership
+                                    </NavLink>
+                                </li>
+
+                                {/* Optional: Add Dashboard + Logout/Login for mobile */}
+                                {
+                                    user &&
+                                    <li>
+                                        {
+                                            admins[0]?.email === user?.email
+                                                ? <Link to="/admin-dashboard">Admin Dashboard</Link>
+                                                : <Link to="/user-dashboard">User Dashboard</Link>
+                                        }
+                                    </li>
+                                }
+                                {
+                                    user
+                                        ? <li><button onClick={logout}>Logout</button></li>
+                                        : <li><Link to="/login">Join Us</Link></li>
+                                }
+                            </ul>
+                        </div>
                     </div>
                 </div>
-               </div>
 
-               <div className=''> <Logo></Logo></div>
+                <div className=''> <Logo></Logo></div>
             </div>
             <div className="navbar-center hidden md:flex">
                 <ul className="menu menu-horizontal gap-10 px-1">
