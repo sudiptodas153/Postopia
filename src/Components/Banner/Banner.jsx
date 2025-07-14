@@ -4,6 +4,7 @@ import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import { AiFillDislike } from 'react-icons/ai';
 import { FaRegCommentAlt } from 'react-icons/fa';
 import { BiSolidLike } from 'react-icons/bi';
+import { Link } from 'react-router';
 
 
 const Banner = () => {
@@ -11,7 +12,7 @@ const Banner = () => {
     const [results, setResults] = useState([]);
     const [hasSearched, setHasSearched] = useState(false);
     const axiosSecure = useAxiosSecure();
-   
+
 
     const handleSearch = async (e) => {
         e.preventDefault();
@@ -33,7 +34,7 @@ const Banner = () => {
     };
 
 
-  
+
 
     return (
         <div className="w-full">
@@ -67,41 +68,28 @@ const Banner = () => {
             <div className="mt-8">
                 {hasSearched && (
                     results.length > 0 ? (
-                        <div className="grid md:grid-cols-2 gap-6">
+                        <div className="grid md:grid-cols-4 gap-6">
                             {results.map((post) => (
-                                <div key={post._id} className=" rounded-2xl border border-[#ad4df1ad] w-full shadow-sm p-4 space-y-2">
-                                    <div className="flex items-center gap-3">
-                                        <img src={post.authorImage || "/default-avatar.png"} alt="Author" className="w-10 h-10 rounded-full" />
-                                        <div>
-                                            <h2 className="font-semibold">{post.authorName}</h2>
-                                            <p className="text-sm text-gray-500">{new Date(post.createdAt).toLocaleDateString()}</p>
+                                <Link to={`/post/${post._id}`} key={post._id}>
+                                    <div className="rounded-2xl border border-[#ad4df1ad] w-full shadow-sm p-4 space-y-2 hover:shadow-md transition">
+                                        <div className="flex items-center gap-3">
+                                            <img src={post.authorImage || "/default-avatar.png"} alt="Author" className="w-10 h-10 rounded-full" />
+                                            <div>
+                                                <h2 className="font-semibold">{post.authorName}</h2>
+                                                <p className="text-sm text-gray-500">{new Date(post.createdAt).toLocaleDateString()}</p>
+                                            </div>
+                                        </div>
+                                        <h3 className="text-xl font-bold text-primary">{post.title}</h3>
+                                        <p className="text-sm text-gray-600">#{post.tag}</p>
+
+                                        <div className="flex justify-between items-center pt-2 text-sm">
+                                            <div className="flex items-center gap-1"><BiSolidLike size={25} /> {post.upVote || 0}</div>
+                                            <div className="flex items-center gap-1"><AiFillDislike size={25} /> {post.downVote || 0}</div>
+                                            <div className="flex items-center gap-1"><FaRegCommentAlt size={20} /> {post.commentCount || 0}</div>
                                         </div>
                                     </div>
-                                    <h3 className="text-xl font-bold text-primary">{post.title}</h3>
-                                    <p className="text-sm text-gray-600">#{post.tag}</p>
+                                </Link>
 
-                                    <div className="flex justify-between items-center pt-2 text-sm">
-                                        <button
-                                            className="cursor-pointer"
-                                        >
-                                            {
-                                               <div className='flex items-center gap-1'><BiSolidLike size={25} /> {post.upVote || 0}</div> 
-                                            }
-                                        </button>
-                                        <button
-                                            className="cursor-pointer"
-                                        >
-                                            {
-                                               <div className='flex items-center gap-1'><AiFillDislike size={25} /> {post.downVote || 0}</div> 
-                                            }
-
-                                        </button>
-                                        <button className="cursor-pointer flex items-center gap-1">
-                                            <FaRegCommentAlt size={20} /> {post.commentCount || 0}
-                                        </button>
-
-                                    </div>
-                                </div>
                             ))}
                         </div>
                     ) : (

@@ -97,6 +97,9 @@ const AuthProvider = ({ children }) => {
 
     // console.log(announcements.length)
 
+    // comments
+    
+
 
 
     const authInfo = {

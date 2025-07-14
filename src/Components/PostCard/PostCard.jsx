@@ -5,9 +5,10 @@ import useAuth from '../../Hooks/useAuth';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import { BiSolidLike } from 'react-icons/bi';
 
-const PostCard = ({ post, updatePost }) => {
+const PostCard = ({ post, updatePost, updatePosts }) => {
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
+
 
     const handleVote = async (postId, type) => {
         try {
@@ -17,7 +18,8 @@ const PostCard = ({ post, updatePost }) => {
             });
 
             if (res.data.updatedPost) {
-                updatePost(res.data.updatedPost);
+                updatePost?.(res.data.updatedPost);
+                updatePosts?.(); 
             }
         } catch (error) {
             console.error(error);

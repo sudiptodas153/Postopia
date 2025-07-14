@@ -5,18 +5,19 @@ import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { AiFillDislike, AiOutlineDislike, AiOutlineLike } from "react-icons/ai";
 import { FaRegCommentAlt } from "react-icons/fa";
 import { BiSolidLike } from "react-icons/bi";
+import PostCard from "../../Components/PostCard/PostCard";
 
 
 const MyProfile = () => {
-    const { user, userInfo } = useAuth();
+    const { user, userInfo, refetch} = useAuth();
     const axiosSecure = useAxiosSecure()
     // const [recentPosts, setRecentPosts] = useState([]);
-    
+
 
 
 
     // All post
-    const { data: posts, refetch } = useQuery({
+    const { data: posts } = useQuery({
         queryKey: ['my-posts', user?.email],
         queryFn: async () => {
             const res = await axiosSecure.get(`/posts?email=${user.email}`);
@@ -25,34 +26,22 @@ const MyProfile = () => {
     })
     // console.log(posts)
 
+    
+
+
     const recentPosts = posts?.slice(-3).reverse();
 
 
 
-
-
     // HandleVote
-    const handleVote = async (postId, type) => {
-        try {
-            const res = await axiosSecure.patch(`/posts/vote/${postId}`, {
-                email: user.email,
-                type: type
-            });
-            if (res.data.success) {
-                refetch();
-            }
-        } catch (error) {
-            console.error(error);
-        }
-    };
 
 
 
     if (!user) return <p>Loading...</p>;
 
     return (
-        <div className="max-w-3xl mx-auto mt-10 p-6 bg-white rounded shadow">
-            <div className="flex border-b border-gray-400 pb-10 items-center gap-6 mb-6">
+        <div className="max-w-3xl mx-auto md:h-[420px]  p-6 bg-white rounded shadow">
+            <div className="flex border-b  border-gray-400 pb-10 items-center gap-6 mb-6">
                 <img
                     src={user.photoURL || "/default-user.png"}
                     alt="User"
@@ -100,48 +89,11 @@ const MyProfile = () => {
             {recentPosts?.length === 0 ? (
                 <p className="text-gray-500">No recent posts found.</p>
             ) : (
-                <div className=" space-y-3 md:space-y-0 md:grid grid-cols-3 md:gap-2 md:h-28">
-                    {recentPosts?.map((post) => {
-                        const voted = post.votedUsers?.find(v => v.email === user.email);
-                        const liked = voted?.type === "like";
-                        const disliked = voted?.type === "dislike";
+                <div className="space-y-3  md:space-y-0 md:grid grid-cols-3 md:gap-2 md:h-28">
+                    {recentPosts?.map((post) => (
+                        <PostCard key={post._id} post={post} updatePosts={refetch} />
 
-                        return (
-                            <div
-                                key={post._id}
-                                className="border rounded p-3 hover:shadow cursor-pointer"
-                            >
-                                <h4 className="font-semibold md:text-xl text-lg">{post.title}</h4>
-                                <p className="text-sm text-gray-600 line-clamp-2">
-                                    {post.description}
-                                </p>
-                                <div className="mt-4 flex items-center gap-4">
-                                    <button
-                                        className="cursor-pointer"
-                                        onClick={() => handleVote(post._id, "like")}
-                                    >
-                                        {
-                                            liked ? <BiSolidLike size={25} /> : <AiOutlineLike size={25} />
-                                        }
-                                    </button>
-                                    <button
-                                        className="cursor-pointer"
-                                        onClick={() => handleVote(post._id, "dislike")}
-                                    >
-                                        {
-                                            disliked ? <AiFillDislike size={25} /> :
-                                                <AiOutlineDislike  size={25} />
-                                        }
-
-                                    </button>
-                                    <button className="cursor-pointer">
-                                        <FaRegCommentAlt size={20} />
-                                    </button>
-                                </div>
-
-                            </div>
-                        )
-                    })}
+                    ))}
                 </div>
             )}
         </div>

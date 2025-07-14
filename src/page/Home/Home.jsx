@@ -3,6 +3,7 @@ import Banner from '../../Components/Banner/Banner';
 import PostCard from '../../Components/PostCard/PostCard';
 import Pagination from '../../Components/Pagination/Pagination';
 import usePosts from '../../Hooks/usePosts';
+import AllTags from '../../Components/AllTags/AllTags';
 // import useAuth from '../../Hooks/useAuth';
 
 const Home = () => {
@@ -21,6 +22,8 @@ const Home = () => {
     return (
         <div className="max-w-11/12 mx-auto mt-10 space-y-10">
             <Banner />
+
+            <AllTags></AllTags>
 
             {/* View Selection Buttons */}
             <div className="flex justify-center gap-4 mb-6">
