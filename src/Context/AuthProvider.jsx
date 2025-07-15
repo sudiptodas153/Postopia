@@ -95,13 +95,14 @@ const AuthProvider = ({ children }) => {
     // All-Post
 
     const { data: posts, refetch } = useQuery({
-        queryKey: ['my-posts', user?.email],
+        queryKey: ['my-posts', user?.email], 
         queryFn: async () => {
             const res = await axiosSecure.get(`/posts?email=${user.email}`);
             return res.data
         }
     })
 
+    // console.log(posts)
 
     const { data: userInfo, refetch: usersinfo } = useQuery({
         queryKey: ['user-info', user?.email],
