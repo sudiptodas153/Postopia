@@ -5,6 +5,7 @@ import React from 'react';
 const About = () => {
   return (
     <div className="max-w-5xl mx-auto px-4 py-10">
+      <title>About</title>
       <h1 className="text-4xl font-bold text-center text-[#ad4df1] mb-6">About Postopia</h1>
 
       <p className="text-lg text-gray-700 leading-relaxed mb-6 text-justify">

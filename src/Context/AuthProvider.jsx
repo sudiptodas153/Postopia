@@ -4,6 +4,8 @@ import { createUserWithEmailAndPassword, GoogleAuthProvider, onAuthStateChanged,
 import { auth } from '../Firebase/Firebase.init';
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from '../Hooks/useAxiosSecure';
+import axios from 'axios';
+
 
 
 const AuthProvider = ({ children }) => {
@@ -54,15 +56,40 @@ const AuthProvider = ({ children }) => {
 
     // OnAuthChange
 
+    // useEffect(() => {
+    //     const unSubscribe = onAuthStateChanged(auth, currentUser => {
+    //         setUser(currentUser);
+    //         setLoading(false)
+    //     })
+    //     return () => {
+    //         unSubscribe()
+    //     }
+    // }, [])
+
+
     useEffect(() => {
-        const unSubscribe = onAuthStateChanged(auth, currentUser => {
-            setUser(currentUser);
+        const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
             setLoading(false)
+            setUser(currentUser)
+            if (currentUser?.email) {
+                const userData = { email: currentUser.email }
+                axios.post('https://postopia-server.vercel.app/jwt', userData, {
+                    withCredentials: true
+                })
+
+                    .then(res => {
+                        console.log(res)
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
+            }
         })
         return () => {
-            unSubscribe()
+            unSubscribe();
         }
     }, [])
+
 
 
     // All-Post

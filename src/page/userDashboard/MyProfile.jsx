@@ -42,6 +42,7 @@ const MyProfile = () => {
 
     return (
         <div className="max-w-3xl mx-auto md:h-[420px]  p-6 bg-white rounded shadow">
+            <title>My Profile</title>
             <div className="flex border-b  border-gray-400 pb-10 items-center gap-6 mb-6">
                 <img
                     src={user.photoURL || "/default-user.png"}

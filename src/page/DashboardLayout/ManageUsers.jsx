@@ -55,6 +55,7 @@ const ManageUsers = () => {
 
     return (
         <div>
+            <title>Manage Users</title>
             <h2 className="text-xl font-bold mb-4">Manage Users</h2>
 
             <input

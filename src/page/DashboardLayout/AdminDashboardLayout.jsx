@@ -12,6 +12,7 @@ const AdminDashboardLayout = () => {
     return (
         <div className="max-w-11/12 mx-auto mt-5 flex flex-col md:flex-row min-h-screen">
             {/* Mobile Navbar with Hamburger */}
+            <title>Admin Dashboard</title>
             <div className="md:hidden flex items-center justify-between px-4 py-3 border border-indigo-500 rounded-lg text-indigo-600 mb-3">
                 <h2 className="text-xl font-bold">Admin Panel</h2>
                 <button

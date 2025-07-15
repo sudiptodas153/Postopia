@@ -32,6 +32,7 @@ const ReportedActivities = () => {
 
     return (
         <div className="max-w-5xl mx-auto p-6 bg-white md:-mt-5 rounded shadow-md flex flex-col">
+            <title>Reported Activity</title>
             <h2 className="text-2xl font-bold mb-4 text-center">Reported Activities</h2>
 
             {/* ✅ Loading Spinner */}

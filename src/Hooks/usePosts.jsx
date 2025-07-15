@@ -22,10 +22,7 @@ const usePosts = (page, view) => {
       url = `/all-posts?page=${page}`;
     }
 
-    // ✅ API call করো যদি:
-    // 1. পোস্ট খালি থাকে (প্রথম লোড)
-    // 2. ভিউ চেঞ্জ হয়
-    // 3. পেজ নাম্বার চেঞ্জ হয়
+   
     const prevPage = parseInt(localStorage.getItem('prevPage'));
     const prevView = localStorage.getItem('view');
 

@@ -93,10 +93,26 @@ export const router = createBrowserRouter([
     errorElement: <ErrorPage></ErrorPage>,
     hydrateFallbackElement: <Loading></Loading>,
     children: [
-      { index: true, Component: MyProfile },
-      { path: "addPost", Component: AddPost },
-      { path: "myPosts", Component: MyPosts },
-      { path: "comments/:postId", Component: CommentReportPage }
+      {
+        index: true,
+        Component: MyProfile
+        
+      },
+      {
+        path: "addPost",
+          element: <PrivateRoute><AddPost></AddPost></PrivateRoute>,
+       
+      },
+      {
+        path: "myPosts",
+          element: <PrivateRoute><MyPosts></MyPosts></PrivateRoute>,
+       
+      },
+      {
+        path: "comments/:postId",
+          element: <PrivateRoute><CommentReportPage></CommentReportPage></PrivateRoute>,
+       
+      }
     ]
   },
 
@@ -123,12 +139,12 @@ export const router = createBrowserRouter([
       {
         path: "reports",
         element: <AdminRoutes><ReportedActivities></ReportedActivities></AdminRoutes>,
-       
+
       },
       {
         path: "announcement",
         element: <AdminRoutes><MakeAnnouncement></MakeAnnouncement></AdminRoutes>,
-       
+
       }
     ]
   }

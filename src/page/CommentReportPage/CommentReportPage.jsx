@@ -92,6 +92,7 @@ const CommentReport = () => {
 
     return (
         <div className="max-w-5xl  mx-auto px-4 ">
+            <title>Comment Report</title>
             <h2 className="text-3xl font-bold mb-6 text-center">Comments</h2>
 
             <div className="overflow-x-auto overflow-auto md:h-[360px] bg-white border shadow rounded-lg">

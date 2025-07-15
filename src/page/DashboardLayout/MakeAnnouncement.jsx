@@ -50,6 +50,7 @@ const MakeAnnouncement = () => {
 
     return (
         <div className="max-w-xl mx-auto">
+            <title>Announcement</title>
             <h2 className="text-xl font-bold mb-4">Make Announcement</h2>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 <input

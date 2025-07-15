@@ -72,14 +72,15 @@ const Login = () => {
 
 
             })
-            .catch(() => {
-
+            .catch((err) => {
+console.log(err)
             })
     }
 
 
     return (
         <div className='border md:w-80 border-gray-300 rounded-lg p-4'>
+            <title>Login</title>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <h2 className="text-3xl font-bold text-center text-purple-700">Login</h2>
                 <div>

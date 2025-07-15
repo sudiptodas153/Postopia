@@ -13,6 +13,7 @@ const Membership = () => {
 
     return (
         <div className="px-4 sm:px-6 md:px-8 lg:px-10">
+            <title>Membership</title>
             <div className="max-w-2xl mx-auto my-10 md:my-20 p-6 md:p-10 bg-white shadow-lg rounded-2xl">
                 {userInfo?.isMember? (
                     <div className="text-center space-y-3">

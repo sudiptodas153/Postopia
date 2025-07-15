@@ -5,6 +5,7 @@ import { BiErrorCircle } from 'react-icons/bi';
 const ErrorPage = () => {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 text-gray-800 p-4">
+      <title>Error Page 404</title>
       <BiErrorCircle className="text-red-500 text-6xl mb-4" />
       <h1 className="text-4xl font-bold mb-2">404 - Page Not Found</h1>
       <p className="text-lg mb-6 text-center">

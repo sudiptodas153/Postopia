@@ -2,7 +2,7 @@ import axios from 'axios';
 import { getAuth } from 'firebase/auth';
 
 const axiosSecure = axios.create({
-  baseURL: 'http://localhost:5000/', // or your deployed URL
+  baseURL: 'https://postopia-server.vercel.app', // or your deployed URL
 });
 
 const useAxiosSecure = () => {

@@ -51,6 +51,7 @@ const MyPosts = () => {
 
     return (
         <div>
+            <title>My Posts</title>
             <div className="overflow-x-auto max-w-5xl mx-auto border border-gray-100 p-4 bg-white rounded shadow">
                 <h2 className="text-3xl font-bold mb-6 text-center">My Posts</h2>
                 <div className="max-h-72 overflow-y-auto rounded-lg">

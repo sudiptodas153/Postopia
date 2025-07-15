@@ -5,6 +5,7 @@ import { FaLock } from 'react-icons/fa';
 const ForbiddenPage = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+      <title>Forbidden Page</title>
       <div className="text-center bg-white p-8 rounded-xl shadow-md max-w-md">
         <div className="text-red-500 text-6xl mb-4 flex justify-center">
           <FaLock />
