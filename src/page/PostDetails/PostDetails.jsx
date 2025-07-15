@@ -129,7 +129,7 @@ const PostDetails = () => {
 
 
     return (
-        <div className="max-w-3xl mx-auto my-10 p-6 bg-white rounded-xl shadow-md border border-purple-300">
+        <div className="md:max-w-3xl mx-3  md:mx-auto my-10 p-6 bg-white rounded-xl shadow-md border border-purple-300">
             {/* Post Header */}
             <title>Post Details</title>
             <div className="flex items-center gap-4 mb-4">

@@ -90,7 +90,7 @@ console.log(err)
                     </fieldset>
                     <fieldset className="fieldset">
                         <legend className="fieldset-legend">Password</legend>
-                        <input type="text" {...register("password", { required: true })} className="input focus:outline-none" placeholder="enter your password" />
+                        <input type="password" {...register("password", { required: true })} className="input focus:outline-none" placeholder="enter your password" />
                     </fieldset>
                     <div>
                         <p className='text-xs mb-3'>Forget Password?</p>

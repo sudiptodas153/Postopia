@@ -143,7 +143,7 @@ const Register = () => {
                             <legend className="fieldset-legend">Password</legend>
 
                             <input
-                                type="text"
+                                type="password"
                                 {...register("password", {
                                     required: true,
                                     minLength: 6,
