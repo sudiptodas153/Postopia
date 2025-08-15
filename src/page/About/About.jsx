@@ -4,7 +4,7 @@ import React from 'react';
 
 const About = () => {
   return (
-    <div className="max-w-5xl mx-auto px-4 py-10">
+    <div className="max-w-11/12 mx-auto py-10">
       <title>About</title>
       <h1 className="text-4xl font-bold text-center text-[#ad4df1] mb-6">About Postopia</h1>
 

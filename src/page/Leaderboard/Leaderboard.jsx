@@ -42,7 +42,7 @@ const Leaderboard = () => {
     }
 
     return (
-        <div className="max-w-6xl mx-auto px-4 py-10">
+        <div className="max-w-11/12 mx-auto py-10">
             <title>Leaderboard</title>
             <h1 className="text-3xl md:text-4xl font-bold text-center text-primary mb-10">🏆 Forum Leaderboard</h1>
 
