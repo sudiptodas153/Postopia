@@ -5,6 +5,7 @@ import Pagination from '../../Components/Pagination/Pagination';
 import usePosts from '../../Hooks/usePosts';
 import AllTags from '../../Components/AllTags/AllTags';
 import AnnouncementList from '../../Components/AnnouncementList/AnnouncementList';
+import GoldUser from '../../Components/GoldUser/GoldUser';
 // import useAuth from '../../Hooks/useAuth';
 
 const Home = () => {
@@ -69,6 +70,7 @@ const Home = () => {
                 totalPages={totalPages}
                 onPageChange={setPage}
             />
+            <GoldUser/>
         </div>
     );
 };
