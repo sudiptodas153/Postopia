@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import useAxiosSecure from '../../Hooks/useAxiosSecure';
 import Loading from '../../page/Loading/Loading';
 import { FaCrown } from "react-icons/fa";
+import Marquee from 'react-fast-marquee';
 
 const GoldUser = () => {
     const [topUsers, setTopUsers] = useState([]);
@@ -35,7 +36,9 @@ const GoldUser = () => {
                 <p className="text-center text-gray-500">No gold badge users found.</p>
             ) : (
                 <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    
                     {topUsers.map((user, index) => (
+                        
                         <div
                             key={user._id || index}
                             className="card bg-white shadow-lg rounded-2xl p-6 border border-yellow-200 hover:shadow-xl transition duration-300"
@@ -45,12 +48,12 @@ const GoldUser = () => {
                                 <div className="relative">
                                     <img
                                         src={user.
-photoURL || "https://i.ibb.co/Z8w9Yw0/default-user.png"}
+                                            photoURL || "https://i.ibb.co/Z8w9Yw0/default-user.png"}
                                         alt={user.name}
                                         className="w-16 h-16 rounded-full border-2 border-yellow-500 object-cover"
                                     />
                                     {/* Gold Crown Icon on top */}
-                                    <FaCrown className="absolute -top-3 -right-3 text-yellow-500 text-xl bg-white rounded-full p-1 shadow-md" />
+                                    <FaCrown className="absolute -top-3 -right-2 text-yellow-500 text-2xl bg-white rounded-full p-1 shadow-md" />
                                 </div>
                                 <div>
                                     <h3 className="font-bold text-lg">{user.name}</h3>
@@ -58,12 +61,13 @@ photoURL || "https://i.ibb.co/Z8w9Yw0/default-user.png"}
                                 </div>
                             </div>
                             <div className="mt-4">
-                                <span className="inline-block bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">
+                                <span className="inline-block bg-yellow-100 text-yellow-600 px-3 py-1 rounded-full text-sm font-bold">
                                     🏅 Gold Badge
                                 </span>
                             </div>
                         </div>
                     ))}
+                    
                 </div>
             )}
         </div>

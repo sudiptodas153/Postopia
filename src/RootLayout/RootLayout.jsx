@@ -6,7 +6,7 @@ import Footer from '../page/Footer/Footer';
 const RootLayout = () => {
     return (
         <div className=''>
-            <div className='sticky top-0 z-50 '>
+            <div className='sticky top-0 z-50'>
                 <Navbar></Navbar>
             </div>
             <Outlet></Outlet>
