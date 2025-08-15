@@ -52,7 +52,7 @@ const MyProfile = () => {
                 <div>
                     <h2 className="text-2xl font-bold">{user.displayName}</h2>
                     <p className="text-gray-600 text-xs md:text-lg">{user.email}</p>
-                    <div className="flex gap-3 mt-2">
+                    <div className="flex gap-4 mt-2">
                         <div className="flex items-center gap-1 bg-[#D3D3D3] text-yellow-800 px-3 py-1 rounded-full font-semibold text-xs md:text-sm">
                             <span>🥉</span> Bronze
                         </div>
