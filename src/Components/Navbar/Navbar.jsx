@@ -101,7 +101,7 @@ const Navbar = () => {
 
     const announcementCount = announcements.length;
     return (
-        <div className="navbar md:bg-[#ad4df152] !z-1000 shadow-sm md:px-12">
+        <div className="navbar md:bg-[#ad4df152] backdrop-blur-lg shadow-sm md:px-12">
             <div className="navbar-start">
 
                 <div>

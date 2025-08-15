@@ -22,7 +22,7 @@ const Home = () => {
     };
 
     return (
-        <div className="max-w-11/12 mx-auto my-10 space-y-10">
+        <div className="max-w-11/12 mx-auto  my-10 space-y-10">
             <title>Home</title>
             <Banner />
 
