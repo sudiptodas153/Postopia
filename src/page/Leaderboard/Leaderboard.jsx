@@ -62,9 +62,7 @@ const Leaderboard = () => {
                                 <h3 className="text-lg font-semibold">{user.name}</h3>
                                 <p className="text-sm text-gray-600 break-all">{user.email}</p>
                             </div>
-                            <div className="flex items-center gap-1 text-blue-600 font-bold text-lg mt-2 sm:mt-0">
-                                <BiLike size={24} /> {user.totalVotes || 0}
-                            </div>
+                           
                         </div>
                     )) : <p>No top users yet.</p>}
                 </div>

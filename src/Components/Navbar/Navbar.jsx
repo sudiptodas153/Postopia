@@ -119,30 +119,7 @@ const Navbar = () => {
                             <label htmlFor="nav-drawer" className="drawer-overlay"></label>
                             <ul className="menu p-4 w-64 min-h-full bg-base-200 text-base-content space-y-2">
                                 {/* Same links used in desktop navbar */}
-                                <li>
-                                    <NavLink
-                                        to="/"
-                                        className={({ isActive }) =>
-                                            isActive
-                                                ? 'text-[#ad4df1] font-semibold border-b-2 border-[#ad4df1]'
-                                                : 'text-gray-600'
-                                        }
-                                    >
-                                        Home
-                                    </NavLink>
-                                </li>
-                                <li>
-                                    <NavLink
-                                        to="/membership"
-                                        className={({ isActive }) =>
-                                            isActive
-                                                ? 'text-[#ad4df1] font-semibold border-b-2 border-[#ad4df1]'
-                                                : 'text-gray-600'
-                                        }
-                                    >
-                                        Membership
-                                    </NavLink>
-                                </li>
+                                {links}
 
                                 {/* Optional: Add Dashboard + Logout/Login for mobile */}
                                 {

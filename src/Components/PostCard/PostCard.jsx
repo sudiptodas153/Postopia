@@ -9,6 +9,8 @@ const PostCard = ({ post, updatePost, updatePosts }) => {
     const { user } = useAuth();
     const axiosSecure = useAxiosSecure();
 
+    // console.log(post)
+
 
     const handleVote = async (postId, type) => {
         try {
@@ -41,8 +43,9 @@ const PostCard = ({ post, updatePost, updatePosts }) => {
                             <p className="text-sm text-gray-500">{new Date(post.createdAt).toLocaleDateString()}</p>
                         </div>
                     </div>
-                    <h3 className="text-xl font-bold text-primary">{post.title}</h3>
-                    <p className="text-sm text-gray-600">#{post.tag}</p>
+                    <h3 className="text-xl font-bold ">{post.title}</h3>
+                    <p className="text-sm font-bold text-blue-500">#{post.tag}</p>
+                    
                 </div>
             </Link>
 

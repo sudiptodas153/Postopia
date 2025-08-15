@@ -31,17 +31,19 @@ const AddPost = () => {
 
     // Submit form
     const onSubmit = async (data) => {
-        // console.log(data)
+
+        // console.log(data.tag?.label)
         const newPost = {
             authorName: user.displayName,
             authorEmail: user.email,
             authorImage: user.photoURL,
             title: data.title,
             description: data.description,
-            tag: data.tag?.value || '',
+            tag: data.tag?.label || '',
             upVote: 0,
             downVote: 0,
             createdAt: new Date().toISOString(),
+            
         };
 
         axiosSecure.post('posts', newPost)
@@ -128,6 +130,7 @@ const AddPost = () => {
                 <Controller
                     name="tag"
                     control={control}
+                    required
                     render={({ field }) => (
                         <Select
                             {...field}

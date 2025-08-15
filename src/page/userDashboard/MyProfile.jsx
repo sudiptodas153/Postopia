@@ -41,24 +41,24 @@ const MyProfile = () => {
     if (!user) return <p><Loading /></p>;
 
     return (
-        <div className="max-w-3xl mx-auto md:h-[420px]  p-6 bg-white rounded shadow">
+        <div className="max-w-3xl overflow-auto mx-auto md:h-[420px]  p-6 bg-white rounded shadow">
             <title>My Profile</title>
             <div className="flex border-b  border-gray-400 pb-10 items-center gap-6 mb-6">
                 <img
                     src={user.photoURL || "/default-user.png"}
                     alt="User"
-                    className="w-24 h-24 rounded-full object-cover"
+                    className="h-14 w-14 md:w-24 md:h-24 rounded-full object-cover"
                 />
                 <div>
                     <h2 className="text-2xl font-bold">{user.displayName}</h2>
                     <p className="text-gray-600 text-xs md:text-lg">{user.email}</p>
                     <div className="flex gap-3 mt-2">
-                        <div className="flex items-center gap-1 bg-[#D3D3D3] text-yellow-800 px-3 py-1 rounded-full font-semibold text-sm">
+                        <div className="flex items-center gap-1 bg-[#D3D3D3] text-yellow-800 px-3 py-1 rounded-full font-semibold text-xs md:text-sm">
                             <span>🥉</span> Bronze
                         </div>
 
                         <div
-                            className={`flex items-center gap-1 px-3 py-1 rounded-full font-semibold text-sm ${userInfo?.isMember
+                            className={`flex items-center gap-1 px-3 py-1 rounded-full text-xs font-semibold md:text-sm ${userInfo?.isMember
                                 ? "bg-yellow-500 text-white cursor-default"
                                 : "bg-yellow-200 text-yellow-500 cursor-not-allowed opacity-50"
                                 }`}
